@@ -1,0 +1,59 @@
+@import url('http://fonts.cdnfonts.com/css/inder');
+
+body {
+    /* height: 500vh; */
+    padding-top: 60px;
+}
+
+nav {
+    background-color: #D9D9D9;
+}
+
+.navbar-brand {
+    position: absolute;
+    left: 50%;
+    margin-left: -50px !important;
+    display: block;
+    font-size: 40px;
+    font-family: 'Inder', sans-serif;
+}
+
+.nav-item {
+    font-size: 20px;
+    font-family: 'Inder', sans-serif;
+    margin-right: 25px;
+    margin-left: 5px;
+}
+
+/* .one {
+    height: 100vh;
+    background-color: #282E36;
+} */
+
+section:nth-of-type(odd){
+    height: 100vh;
+    background-color: #282E36;
+}
+
+
+section:nth-of-type(even){
+    height: 100vh;
+    background-color: #99A5B8;
+}
+
+.full_name {
+    color: #f2f2f2;
+    font-size: 8rem;
+    -webkit-text-stroke: 3px #3B3D3F;
+}
+
+section .container {
+    padding-left: 60px;
+    padding-top: 40px;
+}
+
+.one p {
+    color: #f2f2f2;
+    font-size: 2rem;
+    margin-top: 40px;
+}
