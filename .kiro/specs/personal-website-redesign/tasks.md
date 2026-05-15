@@ -111,7 +111,7 @@ Complete rebuild of hxn.sh from legacy static HTML/CSS/JS to a modern Astro-base
     - No client-side JS needed
     - _Requirements: 2.4_
 
-  - [~] 5.8 Create `src/pages/index.astro` wiring all sections together
+  - [-] 5.8 Create `src/pages/index.astro` wiring all sections together
     - Import BaseLayout and all section components
     - Arrange sections with proper IDs for anchor navigation (#hero, #experience, #skills, #certifications, #education, #contact)
     - Hero section first in viewport
