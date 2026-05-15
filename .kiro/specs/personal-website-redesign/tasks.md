@@ -165,7 +165,7 @@ Complete rebuild of hxn.sh from legacy static HTML/CSS/JS to a modern Astro-base
     - Respect prefers-reduced-motion
     - _Requirements: 3.3, 11.4, 12.6_
 
-  - [-] 7.7 Implement `src/scripts/scroll-reveal.ts`
+  - [x] 7.7 Implement `src/scripts/scroll-reveal.ts`
     - IntersectionObserver to detect sections entering viewport
     - Terminal-style character-by-character reveal animation
     - Mark sections as "revealed" to prevent re-animation
