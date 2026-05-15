@@ -63,11 +63,11 @@ Complete rebuild of hxn.sh from legacy static HTML/CSS/JS to a modern Astro-base
     - Respect prefers-reduced-motion by disabling animations
     - _Requirements: 2.4, 11.4, 12.6_
 
-- [~] 4. Checkpoint - Verify base project builds
+- [x] 4. Checkpoint - Verify base project builds
   - Ensure `astro build` succeeds with the layout and styles in place, ask the user if questions arise.
 
 - [ ] 5. Build static section components
-  - [~] 5.1 Create `src/components/HeroSection.astro`
+  - [x] 5.1 Create `src/components/HeroSection.astro`
     - Display name "Muhammad Ali Hasan"
     - Display role "Solutions Architect @ Hunt Energy Network"
     - Display tagline from profile data
