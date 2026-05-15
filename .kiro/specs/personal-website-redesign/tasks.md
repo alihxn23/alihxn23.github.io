@@ -35,7 +35,7 @@ Complete rebuild of hxn.sh from legacy static HTML/CSS/JS to a modern Astro-base
     - _Requirements: 2.1_
 
 - [ ] 3. Implement base layout and global styles
-  - [-] 3.1 Create `src/layouts/BaseLayout.astro`
+  - [x] 3.1 Create `src/layouts/BaseLayout.astro`
     - HTML5 document structure with lang attribute
     - Meta tags (viewport, description, Open Graph, favicon)
     - Import global CSS files (global.css, theme.css, crt.css)
