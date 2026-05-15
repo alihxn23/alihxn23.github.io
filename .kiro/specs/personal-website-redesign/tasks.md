@@ -89,7 +89,7 @@ Complete rebuild of hxn.sh from legacy static HTML/CSS/JS to a modern Astro-base
     - Visual grouping with category labels
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7_
 
-  - [~] 5.4 Create `src/components/CertificationsSection.astro`
+  - [x] 5.4 Create `src/components/CertificationsSection.astro`
     - Render certifications grouped by provider
     - Visually distinguish AWS, CompTIA, ISC2, and Udacity groups
     - Display all certifications listed in requirements
