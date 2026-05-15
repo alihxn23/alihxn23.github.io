@@ -1,1 +1,309 @@
-/* Theme styles - to be implemented in task 3.3 */
+/* ==========================================================================
+   Theme Styles - Terminal color palette and component styles
+   ========================================================================== */
+
+/* --- Terminal Color Palette --- */
+
+:root {
+  /* Terminal accent colors */
+  --terminal-green: #00ff41;
+  --terminal-green-dim: #00cc33;
+  --terminal-amber: #ffb000;
+  --terminal-amber-dim: #cc8c00;
+  --terminal-cyan: #00d4ff;
+  --terminal-cyan-dim: #00a8cc;
+  --terminal-red: #ff3333;
+  --terminal-magenta: #ff00ff;
+
+  /* Terminal UI colors */
+  --terminal-border: #2a2a3e;
+  --terminal-title-bg: #16162a;
+  --terminal-title-text: #a0a0a0;
+  --terminal-prompt: #00ff41;
+  --terminal-cursor: #00ff41;
+
+  /* Glow effects */
+  --glow-green: 0 0 8px rgba(0, 255, 65, 0.4);
+  --glow-amber: 0 0 8px rgba(255, 176, 0, 0.4);
+  --glow-cyan: 0 0 8px rgba(0, 212, 255, 0.4);
+
+  /* High-contrast text colors (all meet 4.5:1 against --bg-primary #0a0a0f) */
+  --text-accent-green: #00ff41;    /* ~12.5:1 contrast ratio */
+  --text-accent-amber: #ffb000;    /* ~10.5:1 contrast ratio */
+  --text-accent-cyan: #00d4ff;     /* ~10.2:1 contrast ratio */
+
+  /* Spacing for terminal components */
+  --terminal-padding: 1rem;
+  --terminal-radius: 4px;
+}
+
+/* --- Terminal Window Component --- */
+
+.terminal-window {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--terminal-border);
+  border-radius: var(--terminal-radius);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.terminal-window__title-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem var(--terminal-padding);
+  background-color: var(--terminal-title-bg);
+  border-bottom: 1px solid var(--terminal-border);
+  user-select: none;
+}
+
+.terminal-window__dots {
+  display: flex;
+  gap: 6px;
+}
+
+.terminal-window__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.terminal-window__dot--red {
+  background-color: #ff5f56;
+}
+
+.terminal-window__dot--yellow {
+  background-color: #ffbd2e;
+}
+
+.terminal-window__dot--green {
+  background-color: #27c93f;
+}
+
+.terminal-window__title {
+  flex: 1;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--terminal-title-text);
+  letter-spacing: 0.05em;
+}
+
+.terminal-window__body {
+  padding: var(--terminal-padding);
+}
+
+/* --- Terminal Prompt Styling --- */
+
+.terminal-prompt {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+}
+
+.terminal-prompt__user {
+  color: var(--terminal-green);
+}
+
+.terminal-prompt__separator {
+  color: var(--text-secondary);
+}
+
+.terminal-prompt__path {
+  color: var(--terminal-cyan);
+}
+
+.terminal-prompt__symbol {
+  color: var(--terminal-green);
+}
+
+.terminal-prompt__input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  caret-color: var(--terminal-cursor);
+}
+
+/* --- Terminal Output --- */
+
+.terminal-output {
+  color: var(--text-primary);
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.terminal-output--success {
+  color: var(--terminal-green);
+}
+
+.terminal-output--warning {
+  color: var(--terminal-amber);
+}
+
+.terminal-output--error {
+  color: var(--terminal-red);
+}
+
+.terminal-output--info {
+  color: var(--terminal-cyan);
+}
+
+/* --- Section Headers --- */
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  color: var(--terminal-green);
+}
+
+.section-header__prefix {
+  color: var(--terminal-cyan);
+  font-size: 0.875rem;
+}
+
+.section-header__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--terminal-green);
+  text-shadow: var(--glow-green);
+}
+
+.section-header__line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    var(--terminal-border),
+    transparent
+  );
+}
+
+/* --- Code Block Styling --- */
+
+.code-block {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--terminal-border);
+  border-radius: var(--terminal-radius);
+  padding: var(--terminal-padding);
+  overflow-x: auto;
+}
+
+.code-block__line-number {
+  color: var(--text-muted);
+  user-select: none;
+  padding-right: 1rem;
+  text-align: right;
+  min-width: 2.5rem;
+  display: inline-block;
+}
+
+/* --- Terminal Links --- */
+
+.terminal-link {
+  color: var(--terminal-cyan);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--terminal-cyan-dim);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.terminal-link:hover,
+.terminal-link:focus {
+  color: var(--terminal-green);
+  border-color: var(--terminal-green);
+  text-shadow: var(--glow-green);
+}
+
+.terminal-link:focus-visible {
+  outline: 2px solid var(--terminal-cyan);
+  outline-offset: 2px;
+}
+
+/* --- Terminal Tags/Badges --- */
+
+.terminal-tag {
+  display: inline-block;
+  padding: 0.125rem 0.5rem;
+  font-size: 0.75rem;
+  color: var(--terminal-green);
+  border: 1px solid var(--terminal-green-dim);
+  border-radius: 2px;
+  background-color: rgba(0, 255, 65, 0.05);
+}
+
+.terminal-tag--amber {
+  color: var(--terminal-amber);
+  border-color: var(--terminal-amber-dim);
+  background-color: rgba(255, 176, 0, 0.05);
+}
+
+.terminal-tag--cyan {
+  color: var(--terminal-cyan);
+  border-color: var(--terminal-cyan-dim);
+  background-color: rgba(0, 212, 255, 0.05);
+}
+
+/* --- Blinking Cursor --- */
+
+.cursor-blink {
+  display: inline-block;
+  width: 0.6em;
+  height: 1.1em;
+  background-color: var(--terminal-cursor);
+  vertical-align: text-bottom;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* --- Utility Classes --- */
+
+.text-green {
+  color: var(--terminal-green);
+}
+
+.text-amber {
+  color: var(--terminal-amber);
+}
+
+.text-cyan {
+  color: var(--terminal-cyan);
+}
+
+.text-glow-green {
+  text-shadow: var(--glow-green);
+}
+
+.text-glow-amber {
+  text-shadow: var(--glow-amber);
+}
+
+.text-glow-cyan {
+  text-shadow: var(--glow-cyan);
+}
+
+/* --- Reduced Motion --- */
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor-blink {
+    animation: none;
+    opacity: 1;
+  }
+
+  .terminal-link {
+    transition: none;
+  }
+}

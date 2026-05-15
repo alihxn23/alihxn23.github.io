@@ -50,7 +50,7 @@ Complete rebuild of hxn.sh from legacy static HTML/CSS/JS to a modern Astro-base
     - Base dark background color scheme
     - _Requirements: 2.1, 2.2_
 
-  - [~] 3.3 Create `src/styles/theme.css` with terminal color palette and component styles
+  - [-] 3.3 Create `src/styles/theme.css` with terminal color palette and component styles
     - Define CSS custom properties for terminal colors (green, amber, cyan on dark)
     - Terminal-window styling with borders and title bars
     - High-contrast text colors meeting 4.5:1 ratio
