@@ -111,18 +111,18 @@ Complete rebuild of hxn.sh from legacy static HTML/CSS/JS to a modern Astro-base
     - No client-side JS needed
     - _Requirements: 2.4_
 
-  - [-] 5.8 Create `src/pages/index.astro` wiring all sections together
+  - [x] 5.8 Create `src/pages/index.astro` wiring all sections together
     - Import BaseLayout and all section components
     - Arrange sections with proper IDs for anchor navigation (#hero, #experience, #skills, #certifications, #education, #contact)
     - Hero section first in viewport
     - Include CrtOverlay
     - _Requirements: 4.5, 10.5_
 
-- [~] 6. Checkpoint - Verify static site builds and renders all content
+- [x] 6. Checkpoint - Verify static site builds and renders all content
   - Ensure `astro build` succeeds and all content sections are present in the output HTML, ask the user if questions arise.
 
 - [ ] 7. Implement interactive client-side scripts
-  - [~] 7.1 Implement `src/scripts/typing-animation.ts`
+  - [-] 7.1 Implement `src/scripts/typing-animation.ts`
     - Character-by-character typing with configurable delay
     - Blinking cursor during and after typing
     - Trigger on page load for hero headline
