@@ -172,11 +172,11 @@ Complete rebuild of hxn.sh from legacy static HTML/CSS/JS to a modern Astro-base
     - Respect prefers-reduced-motion (show content immediately)
     - _Requirements: 3.4, 3.5, 11.4, 12.6_
 
-- [~] 8. Checkpoint - Verify interactive features work
+- [x] 8. Checkpoint - Verify interactive features work
   - Ensure all animations and terminal navigation function correctly in the built output, ask the user if questions arise.
 
 - [ ] 9. Responsive design and accessibility
-  - [~] 9.1 Add responsive CSS for mobile (320px-767px), tablet (768px-1023px), and desktop (1024px+)
+  - [x] 9.1 Add responsive CSS for mobile (320px-767px), tablet (768px-1023px), and desktop (1024px+)
     - Adapt layout, typography, and spacing at each breakpoint
     - Ensure content is readable and usable at 320px minimum width
     - Support viewports up to 2560px
