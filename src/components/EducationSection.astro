@@ -1,0 +1,82 @@
+---
+import profile from '../data/profile.json';
+
+const education = [...profile.education].sort((a, b) => {
+  const yearA = (a as any).graduationYear ?? Infinity;
+  const yearB = (b as any).graduationYear ?? Infinity;
+  return yearB - yearA;
+});
+---
+
+<section id="education" class="education" aria-label="Education background">
+  <div class="section-header">
+    <span class="section-header__prefix">~/</span>
+    <h2 class="section-header__title">education</h2>
+    <span class="section-header__line"></span>
+  </div>
+
+  <div class="education__list">
+    {education.map((entry) => (
+      <div class="education__entry terminal-window">
+        <div class="terminal-window__title-bar">
+          <div class="terminal-window__dots">
+            <span class="terminal-window__dot terminal-window__dot--red"></span>
+            <span class="terminal-window__dot terminal-window__dot--yellow"></span>
+            <span class="terminal-window__dot terminal-window__dot--green"></span>
+          </div>
+          <span class="terminal-window__title">{entry.institution}</span>
+        </div>
+        <div class="terminal-window__body">
+          <h3 class="education__degree">{entry.degree}</h3>
+          <p class="education__institution text-cyan">@ {entry.institution}</p>
+          {entry.gpa && (
+            <p class="education__gpa">
+              <span class="text-amber">GPA: {entry.gpa}</span>
+            </p>
+          )}
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .education {
+    padding: 4rem 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .education__list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .education__degree {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--terminal-green);
+    text-shadow: var(--glow-green);
+    margin-bottom: 0.25rem;
+  }
+
+  .education__institution {
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .education__gpa {
+    font-size: 0.8125rem;
+  }
+
+  @media (max-width: 480px) {
+    .education {
+      padding: 3rem 1rem;
+    }
+
+    .education__degree {
+      font-size: 1rem;
+    }
+  }
+</style>

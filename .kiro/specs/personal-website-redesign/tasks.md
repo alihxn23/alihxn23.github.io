@@ -95,7 +95,7 @@ Complete rebuild of hxn.sh from legacy static HTML/CSS/JS to a modern Astro-base
     - Display all certifications listed in requirements
     - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5, 7.6_
 
-  - [~] 5.5 Create `src/components/EducationSection.astro`
+  - [-] 5.5 Create `src/components/EducationSection.astro`
     - Render education entries in reverse chronological order
     - Display degree, institution, and GPA
     - _Requirements: 8.1, 8.2, 8.3, 8.4_
