@@ -158,14 +158,14 @@ Complete rebuild of hxn.sh from legacy static HTML/CSS/JS to a modern Astro-base
     - Hydrate with `client:load`
     - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5_
 
-  - [~] 7.6 Implement `src/scripts/glitch-effect.ts`
+  - [x] 7.6 Implement `src/scripts/glitch-effect.ts`
     - Apply CSS clip-path slicing on hover/focus of target elements
     - Random RGB channel offset using CSS transforms
     - Duration-limited to avoid seizure risk
     - Respect prefers-reduced-motion
     - _Requirements: 3.3, 11.4, 12.6_
 
-  - [~] 7.7 Implement `src/scripts/scroll-reveal.ts`
+  - [-] 7.7 Implement `src/scripts/scroll-reveal.ts`
     - IntersectionObserver to detect sections entering viewport
     - Terminal-style character-by-character reveal animation
     - Mark sections as "revealed" to prevent re-animation
