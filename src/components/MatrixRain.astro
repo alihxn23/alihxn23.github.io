@@ -1,0 +1,33 @@
+---
+/**
+ * MatrixRain.astro
+ *
+ * Full-viewport canvas island component that renders the matrix rain
+ * animation behind all page content. Uses client:load for immediate
+ * visual effect on page load.
+ */
+---
+
+<canvas id="matrix-rain-canvas" aria-hidden="true"></canvas>
+
+<style>
+  #matrix-rain-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+  }
+</style>
+
+<script>
+  import { initMatrixRain } from '../scripts/matrix-rain';
+
+  const canvas = document.getElementById('matrix-rain-canvas') as HTMLCanvasElement | null;
+
+  if (canvas) {
+    initMatrixRain(canvas);
+  }
+</script>

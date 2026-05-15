@@ -128,7 +128,7 @@ Complete rebuild of hxn.sh from legacy static HTML/CSS/JS to a modern Astro-base
     - Trigger on page load for hero headline
     - _Requirements: 3.1_
 
-  - [-] 7.2 Implement `src/scripts/matrix-rain.ts`
+  - [x] 7.2 Implement `src/scripts/matrix-rain.ts`
     - Canvas-based falling green characters using requestAnimationFrame
     - Configurable fontSize, speed, density, color, fadeOpacity
     - Pause when tab is hidden (Page Visibility API)
@@ -136,7 +136,7 @@ Complete rebuild of hxn.sh from legacy static HTML/CSS/JS to a modern Astro-base
     - Handle resize events with debounced reinitialization
     - _Requirements: 3.2, 11.4, 12.6_
 
-  - [~] 7.3 Create `src/components/MatrixRain.astro` island component
+  - [x] 7.3 Create `src/components/MatrixRain.astro` island component
     - Full-viewport canvas element positioned behind content
     - Hydrate with `client:load` for immediate visual effect
     - Import and initialize matrix-rain.ts
