@@ -142,7 +142,7 @@ Complete rebuild of hxn.sh from legacy static HTML/CSS/JS to a modern Astro-base
     - Import and initialize matrix-rain.ts
     - _Requirements: 3.2_
 
-  - [~] 7.4 Implement `src/scripts/terminal-nav.ts`
+  - [x] 7.4 Implement `src/scripts/terminal-nav.ts`
     - Parse user input from terminal prompt
     - Match commands case-insensitively with alias support
     - Execute smooth scroll to target section
