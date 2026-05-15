@@ -122,13 +122,13 @@ Complete rebuild of hxn.sh from legacy static HTML/CSS/JS to a modern Astro-base
   - Ensure `astro build` succeeds and all content sections are present in the output HTML, ask the user if questions arise.
 
 - [ ] 7. Implement interactive client-side scripts
-  - [-] 7.1 Implement `src/scripts/typing-animation.ts`
+  - [x] 7.1 Implement `src/scripts/typing-animation.ts`
     - Character-by-character typing with configurable delay
     - Blinking cursor during and after typing
     - Trigger on page load for hero headline
     - _Requirements: 3.1_
 
-  - [~] 7.2 Implement `src/scripts/matrix-rain.ts`
+  - [-] 7.2 Implement `src/scripts/matrix-rain.ts`
     - Canvas-based falling green characters using requestAnimationFrame
     - Configurable fontSize, speed, density, color, fadeOpacity
     - Pause when tab is hidden (Page Visibility API)
