@@ -3,10 +3,14 @@ import profile from '../data/profile.json';
 
 const { name, role, company, tagline, social } = profile;
 
+const heroSocial = social.filter((link) => link.platform !== "Discord");
+// Add email to hero links
+const heroLinks = [...heroSocial, { platform: "Email", url: "mailto:alihxn23@gmail.com", label: "Email" }];
+
 const platformIcons: Record<string, string> = {
   GitHub: '[ gh ]',
   LinkedIn: '[ in ]',
-  Discord: '[ dc ]',
+  Email: '[ @ ]',
 };
 ---
 
@@ -22,16 +26,6 @@ const platformIcons: Record<string, string> = {
     </div>
     <div class="terminal-window__body">
       <div class="hero__content">
-        <pre class="hero__ascii" aria-hidden="true">{`
-  ██╗  ██╗██╗  ██╗███╗   ██╗
-  ██║  ██║╚██╗██╔╝████╗  ██║
-  ███████║ ╚███╔╝ ██╔██╗ ██║
-  ██╔══██║ ██╔██╗ ██║╚██╗██║
-  ██║  ██║██╔╝ ██╗██║ ╚████║
-  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝`}
-        </pre>
-        <span class="sr-only">HXN - Muhammad Ali Hasan's logo</span>
-
         <div class="hero__info">
           <h1 class="hero__name" id="typing-target">
             <span class="terminal-prompt__symbol">$</span> {name}
@@ -44,7 +38,7 @@ const platformIcons: Record<string, string> = {
 
         <nav class="hero__social" aria-label="Social links">
           <ul class="hero__social-list">
-            {social.map((link) => (
+            {heroLinks.map((link) => (
               <li class="hero__social-item">
                 <a
                   href={link.url}
@@ -83,15 +77,6 @@ const platformIcons: Record<string, string> = {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-  }
-
-  .hero__ascii {
-    color: var(--terminal-green);
-    font-size: 0.55rem;
-    line-height: 1.2;
-    text-shadow: var(--glow-green);
-    overflow-x: auto;
-    white-space: pre;
   }
 
   .hero__info {
@@ -162,10 +147,6 @@ const platformIcons: Record<string, string> = {
   }
 
   @media (max-width: 480px) {
-    .hero__ascii {
-      font-size: 0.4rem;
-    }
-
     .hero__name {
       font-size: 1.25rem;
     }

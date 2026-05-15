@@ -28,6 +28,7 @@ export const COMMANDS: CommandDefinition[] = [
   { name: "certs", aliases: ["certifications", "cert"], description: "Professional certifications", targetSection: "#certifications" },
   { name: "education", aliases: ["edu", "school"], description: "Education background", targetSection: "#education" },
   { name: "contact", aliases: ["social", "links"], description: "Contact and social links", targetSection: "#contact" },
+  { name: "showall", aliases: ["cat *", "ls -a", "all"], description: "Reveal all sections", targetSection: "" },
   { name: "help", aliases: ["?", "commands"], description: "List available commands", targetSection: "" },
   { name: "clear", aliases: ["cls"], description: "Clear terminal history", targetSection: "" },
 ];
@@ -101,6 +102,14 @@ export function processCommand(input: string): CommandResult | null {
     };
   }
 
+  if (matched.name === "showall") {
+    return {
+      type: "navigation",
+      command: matched,
+      message: "Revealing all sections...",
+    };
+  }
+
   return {
     type: "navigation",
     command: matched,
@@ -155,7 +164,13 @@ export class TerminalNav {
     switch (result.type) {
       case "navigation":
         this.appendOutput(`$ ${input.trim()}`, result.message);
-        this.scrollToSection(result.command!.targetSection);
+        if (result.command!.name === "showall") {
+          this.revealAllSections();
+        } else {
+          this.hideAllSections();
+          this.revealSection(result.command!.targetSection);
+          this.scrollToSection(result.command!.targetSection);
+        }
         break;
       case "help":
         this.appendOutput(`$ ${input.trim()}`, result.message);
@@ -167,6 +182,34 @@ export class TerminalNav {
         this.appendOutput(`$ ${input.trim()}`, result.message);
         break;
     }
+  }
+
+  /** Hides all gated sections */
+  private hideAllSections(): void {
+    if (typeof document === "undefined") return;
+    const allGated = document.querySelectorAll<HTMLElement>(".terminal-gated");
+    allGated.forEach((el) => {
+      el.classList.remove("section--revealed");
+    });
+  }
+
+  /** Reveals a gated section by removing the hidden state */
+  private revealSection(selector: string): void {
+    if (typeof document === "undefined") return;
+    const sectionName = selector.replace("#", "");
+    const gatedEl = document.querySelector<HTMLElement>(`.terminal-gated[data-section="${sectionName}"]`);
+    if (gatedEl) {
+      gatedEl.classList.add("section--revealed");
+    }
+  }
+
+  /** Reveals all gated sections at once */
+  private revealAllSections(): void {
+    if (typeof document === "undefined") return;
+    const allGated = document.querySelectorAll<HTMLElement>(".terminal-gated");
+    allGated.forEach((el) => {
+      el.classList.add("section--revealed");
+    });
   }
 
   /** Smooth scrolls to the target section */

@@ -16,12 +16,22 @@ import TerminalNav from '../components/TerminalNav.astro';
   <MatrixRain />
   <main id="main-content" tabindex="-1">
     <HeroSection />
-    <ExperienceSection />
-    <SkillsSection />
-    <CertificationsSection />
-    <EducationSection />
-    <ContactSection />
+    <TerminalNav />
+    <div class="terminal-gated" data-section="experience" aria-hidden="false">
+      <ExperienceSection />
+    </div>
+    <div class="terminal-gated" data-section="skills" aria-hidden="false">
+      <SkillsSection />
+    </div>
+    <div class="terminal-gated" data-section="certifications" aria-hidden="false">
+      <CertificationsSection />
+    </div>
+    <div class="terminal-gated" data-section="education" aria-hidden="false">
+      <EducationSection />
+    </div>
+    <div class="terminal-gated" data-section="contact" aria-hidden="false">
+      <ContactSection />
+    </div>
   </main>
-  <TerminalNav />
   <CrtOverlay />
 </BaseLayout>
