@@ -229,17 +229,17 @@ Complete rebuild of hxn.sh from legacy static HTML/CSS/JS to a modern Astro-base
     - **Validates: Requirements 12.4**
 
 - [ ] 12. Build verification and final checks
-  - [~] 12.1 Verify `astro build` produces valid static output
+  - [x] 12.1 Verify `astro build` produces valid static output
     - Confirm output in `dist/` contains minified CSS and JS
     - Confirm valid HTML5 output
     - Confirm no legacy files remain
     - _Requirements: 1.2, 1.4, 12.1, 14.2_
 
-  - [~] 12.2 Run Lighthouse performance check
+  - [x] 12.2 Run Lighthouse performance check
     - Verify desktop performance score >= 90
     - _Requirements: 12.2_
 
-- [~] 13. Final checkpoint - All tests pass and site is ready
+- [x] 13. Final checkpoint - All tests pass and site is ready
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes
