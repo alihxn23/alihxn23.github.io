@@ -6,6 +6,10 @@
  * Provides a command prompt for navigating between sections,
  * with clickable nav links as fallback for traditional navigation.
  *
+ * On mobile (< 768px), touch-friendly nav links are the primary
+ * navigation method with larger touch targets (min 44x44px).
+ * A toggle button allows showing/hiding the terminal input on mobile.
+ *
  * Hydrated with client:load since it's always visible and interactive.
  */
 
@@ -28,24 +32,34 @@ const navLinks = [
         <span class="terminal-window__dot terminal-window__dot--green"></span>
       </div>
       <span class="terminal-window__title">visitor@hxn.sh:~</span>
+      <button
+        id="terminal-toggle"
+        class="terminal-nav__toggle"
+        aria-label="Toggle terminal input"
+        aria-expanded="false"
+      >
+        <span class="terminal-nav__toggle-icon" aria-hidden="true">&#9776;</span>
+      </button>
     </div>
     <div class="terminal-window__body terminal-nav__body">
-      <div id="terminal-output" class="terminal-nav__output" aria-live="polite" aria-atomic="false"></div>
-      <div class="terminal-nav__prompt terminal-prompt">
-        <span class="terminal-prompt__user" aria-hidden="true">visitor@hxn.sh:~$</span>
-        <input
-          id="terminal-input"
-          class="terminal-prompt__input"
-          type="text"
-          aria-label="Terminal command input. Type help for available commands."
-          autocomplete="off"
-          spellcheck="false"
-        />
-      </div>
       <div class="terminal-nav__links">
         {navLinks.map((link) => (
           <a href={link.href} class="terminal-link terminal-nav__link">{link.label}</a>
         ))}
+      </div>
+      <div id="terminal-input-section" class="terminal-nav__input-section">
+        <div id="terminal-output" class="terminal-nav__output" aria-live="polite" aria-atomic="false"></div>
+        <div class="terminal-nav__prompt terminal-prompt">
+          <span class="terminal-prompt__user" aria-hidden="true">visitor@hxn.sh:~$</span>
+          <input
+            id="terminal-input"
+            class="terminal-prompt__input"
+            type="text"
+            aria-label="Terminal command input. Type help for available commands."
+            autocomplete="off"
+            spellcheck="false"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -53,6 +67,34 @@ const navLinks = [
 
 <script>
   import "../scripts/terminal-nav.ts";
+
+  // Mobile terminal toggle functionality
+  function initTerminalToggle() {
+    const toggleBtn = document.getElementById("terminal-toggle");
+    const inputSection = document.getElementById("terminal-input-section");
+
+    if (!toggleBtn || !inputSection) return;
+
+    toggleBtn.addEventListener("click", () => {
+      const isExpanded = toggleBtn.getAttribute("aria-expanded") === "true";
+      toggleBtn.setAttribute("aria-expanded", String(!isExpanded));
+      inputSection.classList.toggle("terminal-nav__input-section--visible");
+
+      // Update toggle icon
+      const icon = toggleBtn.querySelector(".terminal-nav__toggle-icon");
+      if (icon) {
+        icon.textContent = !isExpanded ? "\u2715" : "\u2630";
+      }
+
+      // Focus the input when expanded
+      if (!isExpanded) {
+        const input = document.getElementById("terminal-input") as HTMLInputElement;
+        if (input) input.focus();
+      }
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", initTerminalToggle);
 </script>
 
 <style>
@@ -110,6 +152,39 @@ const navLinks = [
     padding: 0.125rem 0.375rem;
   }
 
+  /* Toggle button - hidden on desktop, visible on mobile */
+  .terminal-nav__toggle {
+    display: none;
+    background: none;
+    border: 1px solid var(--terminal-border);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 1.125rem;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    line-height: 1;
+    margin-left: auto;
+    min-width: 44px;
+    min-height: 32px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .terminal-nav__toggle:hover,
+  .terminal-nav__toggle:focus-visible {
+    background: var(--terminal-border);
+    outline: 2px solid var(--text-primary);
+    outline-offset: 2px;
+  }
+
+  /* Input section - visible by default on desktop */
+  .terminal-nav__input-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
   /* Ensure the terminal input is visible and usable */
   #terminal-input {
     min-width: 0;
@@ -127,18 +202,58 @@ const navLinks = [
     }
 
     .terminal-nav__body {
-      max-height: 140px;
+      max-height: none;
       padding: 0.5rem;
+    }
+
+    /* Toggle button visible on mobile */
+    .terminal-nav__toggle {
+      display: inline-flex;
+    }
+
+    /* Nav links: primary navigation on mobile with touch-friendly targets */
+    .terminal-nav__links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding-top: 0.5rem;
+      border-top: none;
+      border-bottom: 1px solid var(--terminal-border);
+      padding-bottom: 0.5rem;
+      font-size: 0.875rem;
+    }
+
+    .terminal-nav__link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 44px;
+      min-height: 44px;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid var(--terminal-border);
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: background-color 0.15s ease;
+    }
+
+    .terminal-nav__link:hover,
+    .terminal-nav__link:active {
+      background: var(--terminal-border);
+    }
+
+    /* Terminal input section hidden by default on mobile */
+    .terminal-nav__input-section {
+      display: none;
+    }
+
+    .terminal-nav__input-section--visible {
+      display: flex;
     }
 
     .terminal-nav__output {
       max-height: 60px;
       font-size: 0.75rem;
-    }
-
-    .terminal-nav__links {
-      font-size: 0.6875rem;
-      gap: 0.375rem;
     }
   }
 

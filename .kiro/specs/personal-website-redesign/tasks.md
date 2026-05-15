@@ -182,12 +182,12 @@ Complete rebuild of hxn.sh from legacy static HTML/CSS/JS to a modern Astro-base
     - Support viewports up to 2560px
     - _Requirements: 11.1, 11.2_
 
-  - [~] 9.2 Implement touch-friendly mobile navigation alternative
+  - [x] 9.2 Implement touch-friendly mobile navigation alternative
     - Provide hamburger menu or simplified nav for mobile devices
     - Ensure terminal nav input is usable on touch devices or provide alternative
     - _Requirements: 11.3_
 
-  - [~] 9.3 Implement accessibility features
+  - [-] 9.3 Implement accessibility features
     - Add meaningful alt text to all non-decorative images and ASCII art
     - Ensure keyboard-only navigation without focus traps
     - Add appropriate ARIA labels to interactive components
