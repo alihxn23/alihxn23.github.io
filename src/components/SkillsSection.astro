@@ -1,0 +1,100 @@
+---
+import profile from '../data/profile.json';
+
+const { skills } = profile;
+
+const categoryIcons: Record<string, string> = {
+  Frontend: '>>',
+  Backend: '>>',
+  Database: '>>',
+  Cloud: '>>',
+  Mobile: '>>',
+  Tools: '>>',
+};
+---
+
+<section id="skills" class="skills" aria-label="Technical skills">
+  <div class="section-header">
+    <span class="section-header__prefix">~/</span>
+    <h2 class="section-header__title">skills</h2>
+    <span class="section-header__line"></span>
+  </div>
+
+  <div class="skills__grid">
+    {skills.map((group) => (
+      <div class="skills__category">
+        <h3 class="skills__category-label">
+          <span class="skills__category-icon">{categoryIcons[group.category] || '>>'}</span>
+          {group.category}
+        </h3>
+        <ul class="skills__list">
+          {group.items.map((item) => (
+            <li class="skills__item">
+              <span class="terminal-tag">{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .skills {
+    padding: 4rem 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .skills__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .skills__category {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--terminal-border);
+    border-radius: var(--terminal-radius);
+    padding: var(--terminal-padding);
+  }
+
+  .skills__category-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: var(--terminal-cyan);
+    margin-bottom: 0.75rem;
+    text-shadow: var(--glow-cyan);
+  }
+
+  .skills__category-icon {
+    color: var(--terminal-green);
+    font-size: 0.75rem;
+  }
+
+  .skills__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .skills__item {
+    display: inline-block;
+  }
+
+  @media (max-width: 480px) {
+    .skills {
+      padding: 3rem 1rem;
+    }
+
+    .skills__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
