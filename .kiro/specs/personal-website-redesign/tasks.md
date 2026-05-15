@@ -50,13 +50,13 @@ Complete rebuild of hxn.sh from legacy static HTML/CSS/JS to a modern Astro-base
     - Base dark background color scheme
     - _Requirements: 2.1, 2.2_
 
-  - [-] 3.3 Create `src/styles/theme.css` with terminal color palette and component styles
+  - [x] 3.3 Create `src/styles/theme.css` with terminal color palette and component styles
     - Define CSS custom properties for terminal colors (green, amber, cyan on dark)
     - Terminal-window styling with borders and title bars
     - High-contrast text colors meeting 4.5:1 ratio
     - _Requirements: 2.2, 2.3, 12.4_
 
-  - [~] 3.4 Create `src/styles/crt.css` with scanline and CRT overlay effects
+  - [x] 3.4 Create `src/styles/crt.css` with scanline and CRT overlay effects
     - Scanline effect via repeating-linear-gradient pseudo-element
     - Subtle screen flicker via CSS keyframe animation
     - Vignette darkening at edges

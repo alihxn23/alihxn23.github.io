@@ -1,1 +1,86 @@
-/* CRT overlay styles - to be implemented in task 3.4 */
+/* ==========================================================================
+   CRT Overlay Styles - Scanline, flicker, and vignette effects
+   ========================================================================== */
+
+/* --- CRT Overlay Container --- */
+
+.crt-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* --- Scanline Effect --- */
+
+.crt-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.15) 2px,
+    rgba(0, 0, 0, 0.15) 4px
+  );
+  pointer-events: none;
+}
+
+/* --- Vignette Effect --- */
+
+.crt-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 60%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+  pointer-events: none;
+}
+
+/* --- Screen Flicker Animation --- */
+
+.crt-flicker {
+  animation: crt-flicker 4s infinite;
+}
+
+@keyframes crt-flicker {
+  0% {
+    opacity: 1;
+  }
+  3% {
+    opacity: 0.97;
+  }
+  6% {
+    opacity: 1;
+  }
+  48% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.98;
+  }
+  52% {
+    opacity: 1;
+  }
+  97% {
+    opacity: 1;
+  }
+  98% {
+    opacity: 0.96;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* --- Reduced Motion --- */
+
+@media (prefers-reduced-motion: reduce) {
+  .crt-flicker {
+    animation: none;
+  }
+}
