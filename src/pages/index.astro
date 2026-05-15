@@ -12,8 +12,9 @@ import TerminalNav from '../components/TerminalNav.astro';
 ---
 
 <BaseLayout>
+  <a href="#main-content" class="skip-to-content">Skip to main content</a>
   <MatrixRain />
-  <main>
+  <main id="main-content" tabindex="-1">
     <HeroSection />
     <ExperienceSection />
     <SkillsSection />

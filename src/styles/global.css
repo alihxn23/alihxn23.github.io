@@ -123,7 +123,7 @@ samp {
   --bg-surface: #1a1a2e;
   --text-primary: #e0e0e0;
   --text-secondary: #a0a0a0;
-  --text-muted: #666666;
+  --text-muted: #7a7a7a;
 }
 
 html {
@@ -141,6 +141,74 @@ body {
 ::selection {
   background-color: rgba(0, 255, 65, 0.2);
   color: #e0e0e0;
+}
+
+/* --- Skip to Content Link --- */
+
+.skip-to-content {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--bg-surface);
+  color: var(--terminal-green);
+  border: 2px solid var(--terminal-green);
+  border-radius: var(--terminal-radius, 4px);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: top 0.2s ease;
+}
+
+.skip-to-content:focus {
+  top: 1rem;
+  outline: 2px solid var(--terminal-green);
+  outline-offset: 2px;
+}
+
+/* --- Screen Reader Only Utility --- */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Remove focus outline on main when targeted via skip link */
+main:focus {
+  outline: none;
+}
+
+/* --- Focus Visible Styles --- */
+
+:focus-visible {
+  outline: 2px solid var(--terminal-cyan, #00d4ff);
+  outline-offset: 2px;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--terminal-cyan, #00d4ff);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--terminal-cyan, #00d4ff);
+  outline-offset: 2px;
+}
+
+input:focus-visible {
+  outline: 2px solid var(--terminal-cyan, #00d4ff);
+  outline-offset: 2px;
 }
 
 /* --- Reduced Motion --- */
