@@ -76,7 +76,7 @@ Complete rebuild of hxn.sh from legacy static HTML/CSS/JS to a modern Astro-base
     - Target element for typing animation
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 2.5, 10.4_
 
-  - [~] 5.2 Create `src/components/ExperienceSection.astro`
+  - [x] 5.2 Create `src/components/ExperienceSection.astro`
     - Render experience entries from profile.json
     - Sort and display in reverse chronological order
     - Show title, company, date range, and description for each role
