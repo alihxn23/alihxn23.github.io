@@ -15,7 +15,7 @@ Complete rebuild of hxn.sh from legacy static HTML/CSS/JS to a modern Astro-base
     - Install dev dependencies: `vitest`, `fast-check` for testing
     - _Requirements: 1.1, 1.2, 1.4, 14.1, 14.2, 14.3_
 
-  - [~] 1.2 Create project directory structure matching the design
+  - [x] 1.2 Create project directory structure matching the design
     - Create `src/components/`, `src/layouts/`, `src/scripts/`, `src/styles/`, `src/data/`, `src/pages/`
     - Create `public/fonts/` directory
     - _Requirements: 1.1_
