@@ -208,17 +208,17 @@ Complete rebuild of hxn.sh from legacy static HTML/CSS/JS to a modern Astro-base
     - Use fast-check to generate arbitrary skill categories and verify no item appears outside its designated category in rendered output
     - **Validates: Requirements 6.7**
 
-  - [-] 11.3 Write property test for valid command resolution
+  - [x] 11.3 Write property test for valid command resolution
     - **Property 3: Valid commands resolve to correct target section**
     - Use fast-check to select arbitrary registered commands/aliases and verify they resolve to the correct target section
     - **Validates: Requirements 9.2**
 
-  - [~] 11.4 Write property test for unrecognized command handling
+  - [x] 11.4 Write property test for unrecognized command handling
     - **Property 4: Unrecognized commands produce help response**
     - Use fast-check to generate arbitrary strings that don't match any registered command and verify help response is returned
     - **Validates: Requirements 9.3**
 
-  - [~] 11.5 Write property test for alt text presence
+  - [-] 11.5 Write property test for alt text presence
     - **Property 5: Non-decorative images have alt text**
     - Validate build output HTML to ensure all `<img>` elements without `role="presentation"` or `aria-hidden="true"` have non-empty alt attributes
     - **Validates: Requirements 12.3**
