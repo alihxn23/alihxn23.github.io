@@ -203,12 +203,12 @@ Complete rebuild of hxn.sh from legacy static HTML/CSS/JS to a modern Astro-base
     - Use fast-check to generate arbitrary lists of dated entries and verify the sort function always produces descending order
     - **Validates: Requirements 5.6, 8.4**
 
-  - [-] 11.2 Write property test for skill category grouping
+  - [x] 11.2 Write property test for skill category grouping
     - **Property 2: Skills are grouped by category**
     - Use fast-check to generate arbitrary skill categories and verify no item appears outside its designated category in rendered output
     - **Validates: Requirements 6.7**
 
-  - [~] 11.3 Write property test for valid command resolution
+  - [-] 11.3 Write property test for valid command resolution
     - **Property 3: Valid commands resolve to correct target section**
     - Use fast-check to select arbitrary registered commands/aliases and verify they resolve to the correct target section
     - **Validates: Requirements 9.2**
