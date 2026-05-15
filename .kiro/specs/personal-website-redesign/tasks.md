@@ -30,12 +30,12 @@ Complete rebuild of hxn.sh from legacy static HTML/CSS/JS to a modern Astro-base
     - Ensure dates use "YYYY-MM" format, endDate is null for current role
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 5.1, 5.2, 5.3, 5.4, 5.5, 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 7.1, 7.2, 7.3, 7.4, 7.5, 8.1, 8.2, 8.3, 10.1, 10.2, 10.3_
 
-  - [~] 2.2 Add self-hosted JetBrains Mono font files to `public/fonts/`
+  - [x] 2.2 Add self-hosted JetBrains Mono font files to `public/fonts/`
     - Add `JetBrainsMono-Regular.woff2` and `JetBrainsMono-Bold.woff2`
     - _Requirements: 2.1_
 
 - [ ] 3. Implement base layout and global styles
-  - [~] 3.1 Create `src/layouts/BaseLayout.astro`
+  - [-] 3.1 Create `src/layouts/BaseLayout.astro`
     - HTML5 document structure with lang attribute
     - Meta tags (viewport, description, Open Graph, favicon)
     - Import global CSS files (global.css, theme.css, crt.css)
