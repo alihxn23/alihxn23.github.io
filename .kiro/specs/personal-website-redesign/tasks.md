@@ -21,7 +21,7 @@ Complete rebuild of hxn.sh from legacy static HTML/CSS/JS to a modern Astro-base
     - _Requirements: 1.1_
 
 - [ ] 2. Set up content data and fonts
-  - [~] 2.1 Create `src/data/profile.json` with all content data
+  - [x] 2.1 Create `src/data/profile.json` with all content data
     - Include name, role, company, tagline, social links (GitHub, LinkedIn, Discord)
     - Include all experience entries with dates and descriptions
     - Include all skill categories (frontend, backend, database, cloud, mobile, tools)
