@@ -151,7 +151,7 @@ Complete rebuild of hxn.sh from legacy static HTML/CSS/JS to a modern Astro-base
     - Handle empty input as no-op
     - _Requirements: 9.1, 9.2, 9.3, 9.5_
 
-  - [~] 7.5 Create `src/components/TerminalNav.astro` island component
+  - [x] 7.5 Create `src/components/TerminalNav.astro` island component
     - Fixed-position terminal window with command prompt input (`visitor@hxn.sh:~$`)
     - Command history display area
     - Clickable nav links as fallback

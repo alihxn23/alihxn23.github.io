@@ -1,0 +1,117 @@
+---
+/**
+ * TerminalNav.astro - Interactive terminal navigation island
+ *
+ * Fixed-position terminal window at the bottom of the viewport.
+ * Provides a command prompt for navigating between sections,
+ * with clickable nav links as fallback for traditional navigation.
+ *
+ * Hydrated with client:load since it's always visible and interactive.
+ */
+
+const navLinks = [
+  { label: "about", href: "#hero" },
+  { label: "experience", href: "#experience" },
+  { label: "skills", href: "#skills" },
+  { label: "certs", href: "#certifications" },
+  { label: "education", href: "#education" },
+  { label: "contact", href: "#contact" },
+];
+---
+
+<nav class="terminal-nav" aria-label="Terminal navigation">
+  <div class="terminal-window terminal-nav__window">
+    <div class="terminal-window__title-bar">
+      <div class="terminal-window__dots">
+        <span class="terminal-window__dot terminal-window__dot--red"></span>
+        <span class="terminal-window__dot terminal-window__dot--yellow"></span>
+        <span class="terminal-window__dot terminal-window__dot--green"></span>
+      </div>
+      <span class="terminal-window__title">visitor@hxn.sh:~</span>
+    </div>
+    <div class="terminal-window__body terminal-nav__body">
+      <div id="terminal-output" class="terminal-nav__output" aria-live="polite" aria-atomic="false"></div>
+      <div class="terminal-nav__prompt terminal-prompt">
+        <span class="terminal-prompt__user" aria-hidden="true">visitor@hxn.sh:~$</span>
+        <input
+          id="terminal-input"
+          class="terminal-prompt__input"
+          type="text"
+          aria-label="Terminal command input. Type help for available commands."
+          autocomplete="off"
+          spellcheck="false"
+        />
+      </div>
+      <div class="terminal-nav__links">
+        {navLinks.map((link) => (
+          <a href={link.href} class="terminal-link terminal-nav__link">{link.label}</a>
+        ))}
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  import "../scripts/terminal-nav.ts";
+</script>
+
+<style>
+  .terminal-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 0 1rem 1rem;
+    pointer-events: none;
+  }
+
+  .terminal-nav__window {
+    max-width: 640px;
+    margin: 0 auto;
+    pointer-events: auto;
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.6);
+  }
+
+  .terminal-nav__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 200px;
+  }
+
+  .terminal-nav__output {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+    max-height: 120px;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--text-primary);
+  }
+
+  .terminal-nav__prompt {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .terminal-nav__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--terminal-border);
+    font-size: 0.75rem;
+  }
+
+  .terminal-nav__link {
+    padding: 0.125rem 0.375rem;
+  }
+
+  /* Ensure the terminal input is visible and usable */
+  #terminal-input {
+    min-width: 0;
+  }
+</style>
