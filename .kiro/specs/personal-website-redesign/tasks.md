@@ -100,13 +100,13 @@ Complete rebuild of hxn.sh from legacy static HTML/CSS/JS to a modern Astro-base
     - Display degree, institution, and GPA
     - _Requirements: 8.1, 8.2, 8.3, 8.4_
 
-  - [-] 5.6 Create `src/components/ContactSection.astro`
+  - [x] 5.6 Create `src/components/ContactSection.astro`
     - Display LinkedIn, GitHub, and Discord links
     - All links open in new tabs (target="_blank" with rel="noopener noreferrer")
     - Accessible link labels
     - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5_
 
-  - [~] 5.7 Create `src/components/CrtOverlay.astro`
+  - [x] 5.7 Create `src/components/CrtOverlay.astro`
     - Pure CSS component applying scanline overlay
     - No client-side JS needed
     - _Requirements: 2.4_
