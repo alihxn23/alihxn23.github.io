@@ -194,16 +194,16 @@ Complete rebuild of hxn.sh from legacy static HTML/CSS/JS to a modern Astro-base
     - Verify color contrast ratio of 4.5:1 for all body text
     - _Requirements: 12.3, 12.4, 12.5_
 
-- [~] 10. Checkpoint - Verify responsive and accessible
+- [x] 10. Checkpoint - Verify responsive and accessible
   - Ensure the site renders correctly at all breakpoints and passes basic accessibility checks, ask the user if questions arise.
 
 - [ ] 11. Property-based tests
-  - [~] 11.1 Write property test for reverse chronological ordering
+  - [x] 11.1 Write property test for reverse chronological ordering
     - **Property 1: Dated entries are rendered in reverse chronological order**
     - Use fast-check to generate arbitrary lists of dated entries and verify the sort function always produces descending order
     - **Validates: Requirements 5.6, 8.4**
 
-  - [~] 11.2 Write property test for skill category grouping
+  - [-] 11.2 Write property test for skill category grouping
     - **Property 2: Skills are grouped by category**
     - Use fast-check to generate arbitrary skill categories and verify no item appears outside its designated category in rendered output
     - **Validates: Requirements 6.7**
