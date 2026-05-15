@@ -44,7 +44,7 @@ Complete rebuild of hxn.sh from legacy static HTML/CSS/JS to a modern Astro-base
     - Reduced-motion detection script
     - _Requirements: 1.4, 2.1, 12.1_
 
-  - [~] 3.2 Create `src/styles/global.css` with base reset and typography
+  - [x] 3.2 Create `src/styles/global.css` with base reset and typography
     - CSS reset/normalize
     - Set JetBrains Mono as primary font family
     - Base dark background color scheme
