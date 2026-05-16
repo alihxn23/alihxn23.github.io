@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "name": "Post-Task Cleanup",
+  "description": "After every task completes, identifies and cleans up any debugging artifacts, dead code, console logs, commented-out code, or other leftover artifacts from the changes performed in the task.",
+  "version": "1",
+  "when": {
+    "type": "postTaskExecution"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Review the changes that were just made in the completed task. Identify any opportunities for cleanup including: debugging artifacts (console.log statements, debugger statements, TODO comments added during development), dead code (unused imports, unreachable code, commented-out code blocks), temporary workarounds, and any other artifacts that should not remain in production code. Clean up anything you find."
+  }
+}

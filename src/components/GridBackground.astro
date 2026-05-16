@@ -1,0 +1,75 @@
+---
+/**
+ * GridBackground.astro - Interactive grid animation on left and right sides
+ *
+ * Renders two canvas elements positioned on the left and right margins
+ * of the viewport. Points form a grid that reacts to mouse movement,
+ * creating a fluid distortion effect.
+ *
+ * Respects prefers-reduced-motion by rendering a static grid.
+ */
+---
+
+<div class="grid-bg" aria-hidden="true">
+  <canvas id="grid-left" class="grid-bg__canvas grid-bg__canvas--left"></canvas>
+  <canvas id="grid-right" class="grid-bg__canvas grid-bg__canvas--right"></canvas>
+</div>
+
+<script>
+  import { initGridBackground } from "../scripts/grid-background.ts";
+
+  function init() {
+    const left = document.getElementById("grid-left") as HTMLCanvasElement | null;
+    const right = document.getElementById("grid-right") as HTMLCanvasElement | null;
+
+    // Shared state: track if cursor is on ANY canvas
+    const state = { cursorOnAnyCanvas: false };
+
+    if (left) initGridBackground(left, {}, state);
+    if (right) initGridBackground(right, {}, state);
+
+    // Detect when cursor enters/leaves the main terminal area
+    const terminal = document.querySelector(".site-terminal__window") as HTMLElement | null;
+    if (terminal) {
+      terminal.addEventListener("mouseenter", () => { state.cursorOnAnyCanvas = false; });
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", init);
+</script>
+
+<style>
+  .grid-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .grid-bg__canvas {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: calc((100vw - 832px) / 2); /* 800px max-width + 32px padding */
+    height: 100%;
+    pointer-events: auto;
+  }
+
+  .grid-bg__canvas--left {
+    left: 0;
+  }
+
+  .grid-bg__canvas--right {
+    right: 0;
+  }
+
+  /* Hide on smaller screens where there's no side margin */
+  @media (max-width: 900px) {
+    .grid-bg {
+      display: none;
+    }
+  }
+</style>

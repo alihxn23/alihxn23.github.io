@@ -1,0 +1,164 @@
+---
+import profile from '../data/profile.json';
+
+const { name, role, company, tagline, social } = profile;
+
+const heroSocial = social.filter((link) => link.platform !== "Discord");
+// Add email to hero links
+const heroLinks = [...heroSocial, { platform: "Email", url: "mailto:alihxn23@gmail.com", label: "Email" }];
+
+const platformIcons: Record<string, string> = {
+  GitHub: '[ gh ]',
+  LinkedIn: '[ in ]',
+  Email: '[ @ ]',
+};
+---
+
+<section id="hero" class="hero" aria-label="Introduction">
+  <div class="hero__terminal terminal-window">
+    <div class="terminal-window__title-bar">
+      <div class="terminal-window__dots">
+        <span class="terminal-window__dot terminal-window__dot--red"></span>
+        <span class="terminal-window__dot terminal-window__dot--yellow"></span>
+        <span class="terminal-window__dot terminal-window__dot--green"></span>
+      </div>
+      <span class="terminal-window__title">visitor@hxn.sh:~</span>
+    </div>
+    <div class="terminal-window__body">
+      <div class="hero__content">
+        <div class="hero__info">
+          <h1 class="hero__name" id="typing-target">
+            <span class="terminal-prompt__symbol">$</span> {name}
+          </h1>
+          <p class="hero__role">
+            <span class="text-cyan">{role}</span> <span class="text-amber">@</span> <span class="text-green">{company}</span>
+          </p>
+          <p class="hero__tagline">{tagline}</p>
+        </div>
+
+        <nav class="hero__social" aria-label="Social links">
+          <ul class="hero__social-list">
+            {heroLinks.map((link) => (
+              <li class="hero__social-item">
+                <a
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="terminal-link hero__social-link"
+                  aria-label={link.label}
+                >
+                  {platformIcons[link.platform] || `[ ${link.platform.toLowerCase()} ]`}
+                  <span class="hero__social-platform">{link.platform}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+  }
+
+  .hero__terminal {
+    max-width: 700px;
+    width: 100%;
+  }
+
+  .hero__content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .hero__info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .hero__name {
+    font-size: 1.75rem;
+    color: var(--terminal-green);
+    text-shadow: var(--glow-green);
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+
+  .hero__name .terminal-prompt__symbol {
+    font-size: 1.25rem;
+    color: var(--terminal-green);
+  }
+
+  .hero__role {
+    font-size: 1.125rem;
+    color: var(--text-primary);
+  }
+
+  .hero__tagline {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin-top: 0.5rem;
+  }
+
+  .hero__social {
+    margin-top: 0.5rem;
+  }
+
+  .hero__social-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .hero__social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--terminal-cyan);
+    padding: 0.25rem 0.5rem;
+    border: 1px solid var(--terminal-border);
+    border-radius: var(--terminal-radius);
+    transition: border-color 0.2s ease, text-shadow 0.2s ease;
+  }
+
+  .hero__social-link:hover,
+  .hero__social-link:focus {
+    border-color: var(--terminal-cyan);
+    text-shadow: var(--glow-cyan);
+  }
+
+  .hero__social-platform {
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 480px) {
+    .hero__name {
+      font-size: 1.25rem;
+    }
+
+    .hero__role {
+      font-size: 1rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__social-link {
+      transition: none;
+    }
+  }
+</style>

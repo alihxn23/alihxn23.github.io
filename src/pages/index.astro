@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TerminalSite from '../components/TerminalSite.astro';
+import GridBackground from '../components/GridBackground.astro';
+import CrtOverlay from '../components/CrtOverlay.astro';
+---
+
+<BaseLayout>
+  <a href="#main-content" class="skip-to-content">Skip to main content</a>
+  <GridBackground />
+  <main id="main-content" tabindex="-1">
+    <TerminalSite />
+  </main>
+  <CrtOverlay />
+</BaseLayout>

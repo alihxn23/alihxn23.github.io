@@ -1,0 +1,649 @@
+---
+/**
+ * TerminalSite.astro - The entire site as one interactive terminal session
+ *
+ * The page is a single full-screen terminal window. On load, the "about" info
+ * is pre-rendered as if `cat about.txt` was already run. The user types commands
+ * (or clicks suggestion buttons) to output different sections inline.
+ *
+ * Content is rendered server-side in hidden containers for SEO, then cloned
+ * into the terminal output when the corresponding command is executed.
+ */
+import profile from '../data/profile.json';
+import { sortByDateDescending } from '../utils/sort-dates';
+
+const { name, role, company, tagline, social } = profile;
+const experiences = sortByDateDescending(profile.experience);
+const { skills, certifications, education } = profile;
+
+const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function formatDate(dateStr: string | null): string {
+  if (!dateStr) return 'Present';
+  const [year, month] = dateStr.split('-');
+  return `${MONTH_NAMES[parseInt(month, 10) - 1]} ${year}`;
+}
+
+const heroSocial = social.filter((s) => s.platform !== "Discord");
+
+const commands = [
+  { label: "experience", aliases: "exp, work" },
+  { label: "skills", aliases: "tech, stack" },
+  { label: "certs", aliases: "cert" },
+  { label: "education", aliases: "edu" },
+  { label: "contact", aliases: "social" },
+  { label: "showall", aliases: "cat *, all" },
+  { label: "clear", aliases: "cls" },
+  { label: "help", aliases: "?" },
+];
+---
+
+<div class="site-terminal">
+  <div class="site-terminal__window terminal-window">
+    <div class="terminal-window__title-bar">
+      <div class="terminal-window__dots">
+        <span class="terminal-window__dot terminal-window__dot--red"></span>
+        <span class="terminal-window__dot terminal-window__dot--yellow"></span>
+        <span class="terminal-window__dot terminal-window__dot--green"></span>
+      </div>
+      <span class="terminal-window__title">visitor@hxn.sh:~</span>
+    </div>
+    <div class="terminal-window__body site-terminal__body" id="terminal-body">
+      <!-- Pre-rendered initial output (the "about" section) -->
+      <div class="terminal-line terminal-line--cmd">
+        <span class="text-green">visitor@hxn.sh:~$</span> cat about.txt
+      </div>
+      <div class="terminal-line terminal-line--output terminal-about">
+        <pre class="terminal-about__ascii" aria-hidden="true">{`
+███╗   ███╗██╗   ██╗██╗  ██╗ █████╗ ███╗   ███╗███╗   ███╗ █████╗ ██████╗ 
+████╗ ████║██║   ██║██║  ██║██╔══██╗████╗ ████║████╗ ████║██╔══██╗██╔══██╗
+██╔████╔██║██║   ██║███████║███████║██╔████╔██║██╔████╔██║███████║██║  ██║
+██║╚██╔╝██║██║   ██║██╔══██║██╔══██║██║╚██╔╝██║██║╚██╔╝██║██╔══██║██║  ██║
+██║ ╚═╝ ██║╚██████╔╝██║  ██║██║  ██║██║ ╚═╝ ██║██║ ╚═╝ ██║██║  ██║██████╔╝
+╚═╝     ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═════╝ 
+
+██╗  ██╗ █████╗ ███████╗ █████╗ ███╗   ██╗
+██║  ██║██╔══██╗██╔════╝██╔══██╗████╗  ██║
+███████║███████║███████╗ ███████║██╔██╗ ██║
+██╔══██║██╔══██║╚════██║██╔══██║██║╚██╗██║
+██║  ██║██║  ██║███████║██║  ██║██║ ╚████║
+╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝`}</pre>
+        <span class="sr-only">{name}</span>
+        <p class="terminal-about__role">
+          <span class="text-cyan">{role}</span> <span class="text-amber">@</span> <span class="text-green">{company}</span>
+        </p>
+        <p class="terminal-about__tagline">{tagline}</p>
+        <div class="terminal-about__links">
+          <a href="https://linkedin.com/in/alihxn23" target="_blank" rel="noopener noreferrer" class="terminal-link" aria-label="LinkedIn Profile">
+            [linkedin]
+          </a>
+          <a href="https://github.com/alihxn23" target="_blank" rel="noopener noreferrer" class="terminal-link" aria-label="GitHub Profile">
+            [github]
+          </a>
+          <a href="mailto:alihxn23@gmail.com" class="terminal-link" aria-label="Email">
+            [email]
+          </a>
+        </div>
+      </div>
+
+      <!-- Terminal output area where command results appear -->
+      <div id="terminal-output"></div>
+
+      <!-- Input prompt (always at bottom of content) -->
+      <div class="terminal-line terminal-line--input" id="terminal-input-line">
+        <span class="terminal-input__prompt text-green" aria-hidden="true">visitor@hxn.sh:~$</span>
+        <div class="terminal-input__wrapper">
+          <input
+            id="terminal-input"
+            class="terminal-input__field"
+            type="text"
+            placeholder="type a command..."
+            aria-label="Terminal command input. Type help for available commands."
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <span class="terminal-input__cursor" aria-hidden="true"></span>
+        </div>
+      </div>
+
+      <!-- Suggestion buttons -->
+      <div class="terminal-suggestions" aria-label="Available commands">
+        {commands.map((cmd) => (
+          <button
+            class="terminal-suggestions__btn"
+            data-command={cmd.label}
+            type="button"
+            aria-label={`Run command: ${cmd.label}`}
+          >
+            <span class="terminal-suggestions__prefix" aria-hidden="true">&gt;</span>
+            {cmd.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Hidden section content for SEO + cloning into terminal output -->
+<div id="section-data" aria-hidden="true" style="display:none;">
+  <div id="tpl-experience">
+    <div class="terminal-section">
+      <div class="terminal-section__header">~/experience</div>
+      {experiences.map((entry) => (
+        <div class="terminal-entry">
+          <div class="terminal-entry__title">
+            <span class="text-green">{entry.title}</span>
+            <span class="text-cyan"> @ {entry.company}</span>
+          </div>
+          <div class="terminal-entry__meta text-amber">{formatDate(entry.startDate)} — {formatDate(entry.endDate)}</div>
+          <div class="terminal-entry__body">{entry.description}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div id="tpl-skills">
+    <div class="terminal-section">
+      <div class="terminal-section__header">~/skills</div>
+      {skills.map((group) => (
+        <div class="terminal-entry">
+          <div class="terminal-entry__title text-cyan">{group.category}</div>
+          <div class="terminal-entry__tags">
+            {group.items.map((item) => (
+              <span class="terminal-tag">{item}</span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div id="tpl-certs">
+    <div class="terminal-section">
+      <div class="terminal-section__header">~/certifications</div>
+      {certifications.map((group) => (
+        <div class="terminal-entry">
+          <div class="terminal-entry__title text-cyan">{group.provider}</div>
+          <div class="terminal-entry__tags">
+            {group.certifications.map((cert) => (
+              <span class="terminal-tag">{cert.code ? `${cert.name} (${cert.code})` : cert.name}</span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div id="tpl-education">
+    <div class="terminal-section">
+      <div class="terminal-section__header">~/education</div>
+      {education.map((edu) => (
+        <div class="terminal-entry">
+          <div class="terminal-entry__title text-green">{edu.degree}</div>
+          <div class="terminal-entry__meta">
+            <span class="text-cyan">@ {edu.institution}</span>
+            {edu.gpa && <span class="text-amber"> — GPA: {edu.gpa}</span>}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div id="tpl-contact">
+    <div class="terminal-section">
+      <div class="terminal-section__header">~/contact</div>
+      {social.map((s) => (
+        <div class="terminal-entry terminal-entry--inline">
+          <span class="text-cyan">[{s.platform.toLowerCase()}]</span>
+          <a href={s.url} target="_blank" rel="noopener noreferrer" class="terminal-link">{s.url}</a>
+        </div>
+      ))}
+      <div class="terminal-entry terminal-entry--inline">
+        <span class="text-cyan">[email]</span>
+        <a href="mailto:alihxn23@gmail.com" class="terminal-link">alihxn23@gmail.com</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { processCommand, getHelpMessage, COMMANDS } from "../scripts/terminal-nav.ts";
+
+  function initTerminalSite() {
+    const input = document.getElementById("terminal-input") as HTMLInputElement;
+    const output = document.getElementById("terminal-output") as HTMLElement;
+    const inputLine = document.getElementById("terminal-input-line") as HTMLElement;
+    const cursor = document.querySelector(".terminal-input__cursor") as HTMLElement;
+    const body = document.getElementById("terminal-body") as HTMLElement;
+
+    if (!input || !output || !inputLine) return;
+
+    // Cursor tracking
+    const measure = document.createElement("span");
+    measure.setAttribute("aria-hidden", "true");
+    measure.style.position = "absolute";
+    measure.style.top = "-9999px";
+    measure.style.left = "-9999px";
+    measure.style.whiteSpace = "pre";
+    measure.style.visibility = "hidden";
+    measure.style.pointerEvents = "none";
+    document.body.appendChild(measure);
+
+    function updateCursor() {
+      if (!cursor || !measure || !input) return;
+      measure.style.font = getComputedStyle(input).font;
+      const text = input.value.substring(0, input.selectionStart || 0);
+      measure.textContent = text || "";
+      cursor.style.left = `${measure.offsetWidth}px`;
+    }
+
+    input.addEventListener("input", updateCursor);
+    input.addEventListener("keyup", updateCursor);
+    input.addEventListener("click", updateCursor);
+    input.addEventListener("focus", updateCursor);
+
+    // Template map for commands -> section content
+    const templateMap: Record<string, string> = {
+      experience: "tpl-experience",
+      skills: "tpl-skills",
+      certs: "tpl-certs",
+      education: "tpl-education",
+      contact: "tpl-contact",
+    };
+
+    function appendCommandLine(cmd: string) {
+      const line = document.createElement("div");
+      line.className = "terminal-line terminal-line--cmd";
+      line.innerHTML = `<span class="text-green">visitor@hxn.sh:~$</span> ${escapeHtml(cmd)}`;
+      output.appendChild(line);
+    }
+
+    function appendOutput(html: string) {
+      const line = document.createElement("div");
+      line.className = "terminal-line terminal-line--output";
+      line.innerHTML = html;
+      output.appendChild(line);
+    }
+
+    function appendText(text: string) {
+      const line = document.createElement("div");
+      line.className = "terminal-line terminal-line--output";
+      const pre = document.createElement("pre");
+      pre.className = "terminal-pre";
+      pre.textContent = text;
+      line.appendChild(pre);
+      output.appendChild(line);
+    }
+
+    function renderTemplate(templateId: string) {
+      const tpl = document.getElementById(templateId);
+      if (!tpl) return;
+      const clone = tpl.cloneNode(true) as HTMLElement;
+      clone.removeAttribute("id");
+      clone.style.display = "";
+      const wrapper = document.createElement("div");
+      wrapper.className = "terminal-line terminal-line--output";
+      // Move children from clone into wrapper
+      while (clone.firstChild) {
+        wrapper.appendChild(clone.firstChild);
+      }
+      output.appendChild(wrapper);
+    }
+
+    function scrollToBottom() {
+      body.scrollTop = body.scrollHeight;
+      // Scroll the page so the suggestion buttons are visible
+      const suggestions = document.querySelector(".terminal-suggestions") as HTMLElement;
+      if (suggestions) {
+        suggestions.scrollIntoView({ behavior: "smooth", block: "end" });
+      } else {
+        inputLine.scrollIntoView({ behavior: "smooth", block: "end" });
+      }
+    }
+
+    function escapeHtml(str: string): string {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    function executeCommand(rawInput: string) {
+      const trimmed = rawInput.trim();
+      if (!trimmed) return;
+
+      appendCommandLine(trimmed);
+
+      const result = processCommand(trimmed);
+
+      if (!result) return;
+
+      switch (result.type) {
+        case "navigation": {
+          if (result.command!.name === "showall") {
+            // Render all sections
+            Object.values(templateMap).forEach((tplId) => renderTemplate(tplId));
+          } else {
+            const tplId = templateMap[result.command!.name];
+            if (tplId) {
+              renderTemplate(tplId);
+            } else if (result.command!.name === "about") {
+              appendText(`${document.querySelector(".terminal-about")?.textContent || ""}`);
+            }
+          }
+          break;
+        }
+        case "help":
+          appendText(result.message);
+          break;
+        case "clear":
+          output.innerHTML = "";
+          break;
+        case "error":
+          appendText(result.message);
+          break;
+      }
+
+      scrollToBottom();
+    }
+
+    // Handle Enter key
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        const val = input.value;
+        input.value = "";
+        updateCursor();
+        executeCommand(val);
+      }
+    });
+
+    // Suggestion buttons
+    const suggestions = document.querySelectorAll<HTMLButtonElement>(".terminal-suggestions__btn");
+    suggestions.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const cmd = btn.dataset.command || "";
+        input.value = cmd;
+        updateCursor();
+        // Auto-execute
+        input.value = "";
+        updateCursor();
+        executeCommand(cmd);
+        input.focus();
+      });
+    });
+
+    // Focus input when clicking anywhere in the terminal body
+    body.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest("a") && !target.closest("button") && !target.closest("input")) {
+        input.focus();
+      }
+    });
+
+    // Initial cursor position and focus
+    updateCursor();
+    input.focus();
+  }
+
+  document.addEventListener("DOMContentLoaded", initTerminalSite);
+</script>
+
+<style>
+  .site-terminal {
+    min-height: 100vh;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .site-terminal__window {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 2rem);
+  }
+
+  .site-terminal__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    overflow-y: auto;
+    padding: var(--terminal-padding);
+  }
+
+  /* Terminal lines */
+  .terminal-line {
+    margin-bottom: 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  .terminal-line--cmd {
+    color: var(--text-primary);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .terminal-line--output {
+    color: var(--text-secondary);
+    padding-left: 0;
+  }
+
+  .terminal-line--input {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 0.75rem;
+  }
+
+  /* About section (pre-rendered) */
+  .terminal-about__ascii {
+    color: var(--terminal-green);
+    font-size: 0.65rem;
+    line-height: 1.2;
+    text-shadow: var(--glow-green);
+    overflow-x: auto;
+    white-space: pre;
+    margin-bottom: 0.75rem;
+  }
+
+  .terminal-about__role {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .terminal-about__tagline {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+  }
+
+  .terminal-about__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  /* Input area */
+  .terminal-input__prompt {
+    white-space: nowrap;
+    font-size: 0.875rem;
+  }
+
+  .terminal-input__wrapper {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  .terminal-input__field {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    caret-color: transparent;
+  }
+
+  .terminal-input__cursor {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0.55em;
+    height: 1.1em;
+    background: var(--terminal-green);
+    animation: cursor-blink 1s step-end infinite;
+    pointer-events: none;
+  }
+
+  @keyframes cursor-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  /* Suggestion buttons */
+  .terminal-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--terminal-border);
+    margin-top: 0.75rem;
+  }
+
+  .terminal-suggestions__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.375rem 0.75rem;
+    background: transparent;
+    border: 1px solid var(--terminal-border);
+    border-radius: var(--terminal-radius);
+    color: var(--terminal-cyan);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    cursor: pointer;
+    transition: border-color 0.15s ease, text-shadow 0.15s ease, background-color 0.15s ease;
+    min-height: 36px;
+  }
+
+  .terminal-suggestions__btn:hover,
+  .terminal-suggestions__btn:focus-visible {
+    border-color: var(--terminal-cyan);
+    text-shadow: var(--glow-cyan);
+    background: rgba(0, 255, 255, 0.05);
+    outline: none;
+  }
+
+  .terminal-suggestions__btn:active {
+    background: rgba(0, 255, 255, 0.1);
+  }
+
+  .terminal-suggestions__prefix {
+    color: var(--terminal-green);
+    font-weight: bold;
+  }
+
+  /* Section output styling */
+  .terminal-section {
+    margin: 0.5rem 0;
+  }
+
+  .terminal-section__header {
+    color: var(--terminal-green);
+    text-shadow: var(--glow-green);
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid var(--terminal-border);
+    padding-bottom: 0.5rem;
+  }
+
+  .terminal-entry {
+    margin-bottom: 1rem;
+    padding-left: 0.5rem;
+    border-left: 2px solid var(--terminal-border);
+    padding-bottom: 0.25rem;
+  }
+
+  .terminal-entry--inline {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-left: none;
+    padding-left: 0;
+  }
+
+  .terminal-entry__title {
+    font-weight: 700;
+    font-size: 0.9375rem;
+    margin-bottom: 0.125rem;
+  }
+
+  .terminal-entry__meta {
+    font-size: 0.8125rem;
+    margin-bottom: 0.375rem;
+  }
+
+  .terminal-entry__body {
+    color: var(--text-secondary);
+    font-size: 0.8125rem;
+    line-height: 1.6;
+  }
+
+  .terminal-entry__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    margin-top: 0.375rem;
+  }
+
+  .terminal-pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  /* Mobile */
+  @media (max-width: 767px) {
+    .site-terminal {
+      padding: 0.5rem;
+    }
+
+    .site-terminal__window {
+      min-height: calc(100vh - 1rem);
+    }
+
+    .terminal-about__ascii {
+      font-size: 0.4rem;
+    }
+
+    .terminal-suggestions__btn {
+      min-height: 44px;
+      padding: 0.5rem 0.875rem;
+      font-size: 0.875rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .terminal-input__cursor {
+      animation: none;
+      opacity: 1;
+    }
+
+    .terminal-suggestions__btn {
+      transition: none;
+    }
+  }
+</style>

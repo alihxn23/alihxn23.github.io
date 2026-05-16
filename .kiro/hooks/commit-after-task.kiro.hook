@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "name": "Commit After Task",
+  "description": "After every spec task finishes, automatically commit the changes with a suitable commit message describing what was done.",
+  "version": "1",
+  "when": {
+    "type": "postTaskExecution"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "The task has been completed. Stage all changed files and commit them with a concise, descriptive commit message that summarizes the work done in this task. Use conventional commit format (e.g., feat:, fix:, refactor:, style:, docs:). Do not push."
+  }
+}

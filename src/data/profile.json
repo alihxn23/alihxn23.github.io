@@ -1,0 +1,139 @@
+{
+  "name": "Muhammad Ali Hasan",
+  "role": "Solutions Architect",
+  "company": "Hunt Energy Network",
+  "tagline": "Solutions Architect building scalable cloud infrastructure and full-stack applications. AWS certified, security-focused, and passionate about elegant engineering.",
+  "social": [
+    {
+      "platform": "GitHub",
+      "url": "https://github.com/alihxn23",
+      "label": "GitHub Profile"
+    },
+    {
+      "platform": "LinkedIn",
+      "url": "https://linkedin.com/in/alihxn23",
+      "label": "LinkedIn Profile"
+    },
+    {
+      "platform": "Discord",
+      "url": "https://discordapp.com/users/887374732264095834",
+      "label": "Discord Profile"
+    }
+  ],
+  "experience": [
+    {
+      "title": "Solutions Architect",
+      "company": "Hunt Energy Network",
+      "startDate": "2025-03",
+      "endDate": null,
+      "description": "Designing and implementing scalable cloud architecture solutions, leading technical strategy, and driving infrastructure modernization initiatives."
+    },
+    {
+      "title": "Software Engineer",
+      "company": "Hunt Energy Network",
+      "startDate": "2022-01",
+      "endDate": "2025-03",
+      "description": "Developed full-stack applications using modern web technologies, built RESTful APIs, and implemented cloud-native solutions on AWS infrastructure."
+    },
+    {
+      "title": "Intern",
+      "company": "Hunt Energy Network",
+      "startDate": "2021-06",
+      "endDate": "2021-08",
+      "description": "Contributed to software development projects, gained hands-on experience with enterprise development workflows and cloud technologies."
+    },
+    {
+      "title": "Tech Summer Engagement Program",
+      "company": "Paycom",
+      "startDate": "2022-07",
+      "endDate": "2022-07",
+      "description": "Participated in an intensive technology engagement program focused on software engineering practices and professional development."
+    }
+  ],
+  "skills": [
+    {
+      "category": "Frontend",
+      "items": ["React", "Angular", "TypeScript", "JavaScript", "HTML", "CSS", "Bootstrap"]
+    },
+    {
+      "category": "Backend",
+      "items": ["Node.js", "Express", "Python", "Java"]
+    },
+    {
+      "category": "Database",
+      "items": ["MongoDB", "MySQL"]
+    },
+    {
+      "category": "Cloud",
+      "items": ["AWS Lambda", "API Gateway", "Heroku"]
+    },
+    {
+      "category": "Mobile",
+      "items": ["Ionic"]
+    },
+    {
+      "category": "Tools",
+      "items": ["Git", "NumPy", "Pandas"]
+    }
+  ],
+  "certifications": [
+    {
+      "provider": "AWS",
+      "certifications": [
+        { "name": "Solutions Architect Associate", "code": "SAA" },
+        { "name": "Developer Associate", "code": "DVA" },
+        { "name": "SysOps Admin Associate", "code": "SOA" },
+        { "name": "Cloud Practitioner", "code": "CLF" }
+      ]
+    },
+    {
+      "provider": "CompTIA",
+      "certifications": [
+        { "name": "SecurityX" },
+        { "name": "CySA+" },
+        { "name": "PenTest+" },
+        { "name": "Cloud+" },
+        { "name": "Security+" },
+        { "name": "Network+" },
+        { "name": "A+" },
+        { "name": "CSIE", "code": "Stackable" },
+        { "name": "CSAE", "code": "Stackable" },
+        { "name": "CSAP", "code": "Stackable" },
+        { "name": "CNSP", "code": "Stackable" },
+        { "name": "CCAP", "code": "Stackable" },
+        { "name": "CSCP", "code": "Stackable" },
+        { "name": "CSIS", "code": "Stackable" },
+        { "name": "CIOS", "code": "Stackable" },
+        { "name": "CNVP", "code": "Stackable" }
+      ]
+    },
+    {
+      "provider": "ISC2",
+      "certifications": [
+        { "name": "Candidate" }
+      ]
+    },
+    {
+      "provider": "Udacity",
+      "certifications": [
+        { "name": "Business Analytics Nanodegree" }
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "BS Computer Science",
+      "institution": "UT Dallas",
+      "gpa": "4.0"
+    },
+    {
+      "degree": "AS Computer Science",
+      "institution": "Dallas College",
+      "gpa": "4.0"
+    },
+    {
+      "degree": "High School Diploma",
+      "institution": "GCU Lahore"
+    }
+  ]
+}
