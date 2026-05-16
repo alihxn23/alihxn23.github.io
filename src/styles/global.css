@@ -211,31 +211,6 @@ input:focus-visible {
   outline-offset: 2px;
 }
 
-/* --- Terminal-Gated Sections --- */
-/* Content sections are hidden by default and revealed via terminal commands.
-   Content remains in the DOM for SEO and accessibility (screen readers).
-   The .section--revealed class is added by terminal-nav.ts when a command is executed. */
-
-.terminal-gated {
-  opacity: 0;
-  max-height: 0;
-  overflow: hidden;
-  transition: opacity 0.4s ease, max-height 0.6s ease;
-  pointer-events: none;
-}
-
-.terminal-gated.section--revealed {
-  opacity: 1;
-  max-height: none;
-  overflow: visible;
-  pointer-events: auto;
-}
-
-/* Ensure screen readers can still access hidden content */
-.terminal-gated[aria-hidden="false"] {
-  /* Content is accessible to AT even when visually hidden */
-}
-
 /* --- Reduced Motion --- */
 
 @media (prefers-reduced-motion: reduce) {

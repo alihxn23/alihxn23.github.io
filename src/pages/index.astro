@@ -1,37 +1,15 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import HeroSection from '../components/HeroSection.astro';
-import ExperienceSection from '../components/ExperienceSection.astro';
-import SkillsSection from '../components/SkillsSection.astro';
-import CertificationsSection from '../components/CertificationsSection.astro';
-import EducationSection from '../components/EducationSection.astro';
-import ContactSection from '../components/ContactSection.astro';
+import TerminalSite from '../components/TerminalSite.astro';
+import GridBackground from '../components/GridBackground.astro';
 import CrtOverlay from '../components/CrtOverlay.astro';
-import MatrixRain from '../components/MatrixRain.astro';
-import TerminalNav from '../components/TerminalNav.astro';
 ---
 
 <BaseLayout>
   <a href="#main-content" class="skip-to-content">Skip to main content</a>
-  <MatrixRain />
+  <GridBackground />
   <main id="main-content" tabindex="-1">
-    <HeroSection />
-    <TerminalNav />
-    <div class="terminal-gated" data-section="experience" aria-hidden="false">
-      <ExperienceSection />
-    </div>
-    <div class="terminal-gated" data-section="skills" aria-hidden="false">
-      <SkillsSection />
-    </div>
-    <div class="terminal-gated" data-section="certifications" aria-hidden="false">
-      <CertificationsSection />
-    </div>
-    <div class="terminal-gated" data-section="education" aria-hidden="false">
-      <EducationSection />
-    </div>
-    <div class="terminal-gated" data-section="contact" aria-hidden="false">
-      <ContactSection />
-    </div>
+    <TerminalSite />
   </main>
   <CrtOverlay />
 </BaseLayout>

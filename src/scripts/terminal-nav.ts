@@ -259,8 +259,10 @@ export class TerminalNav {
 }
 
 // Initialize on page load (guard for non-browser environments)
-if (typeof document !== "undefined") {
-  document.addEventListener("DOMContentLoaded", () => {
-    new TerminalNav("#terminal-input", "#terminal-output");
-  });
-}
+// Note: When using TerminalSite.astro, initialization is handled by that component's script.
+// This auto-init is kept for backward compatibility with TerminalNav.astro usage.
+// if (typeof document !== "undefined") {
+//   document.addEventListener("DOMContentLoaded", () => {
+//     new TerminalNav("#terminal-input", "#terminal-output");
+//   });
+// }
