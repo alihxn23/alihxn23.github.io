@@ -10,10 +10,9 @@
  * into the terminal output when the corresponding command is executed.
  */
 import profile from '../data/profile.json';
-import { sortByDateDescending } from '../utils/sort-dates';
 
 const { name, role, company, tagline, social } = profile;
-const experiences = sortByDateDescending(profile.experience);
+const experiences = profile.experience;
 const { skills, certifications, education } = profile;
 
 const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -170,6 +169,10 @@ const commands = [
           </div>
         </div>
       ))}
+      <div class="terminal-entry terminal-entry--inline">
+        <span class="text-amber">→</span>
+        <a href="https://credly.hxn.sh" target="_blank" rel="noopener noreferrer" class="terminal-link">View all badges on Credly</a>
+      </div>
     </div>
   </div>
 
