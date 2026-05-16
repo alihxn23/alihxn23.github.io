@@ -253,11 +253,12 @@ const commands = [
       contact: "tpl-contact",
     };
 
-    function appendCommandLine(cmd: string) {
+    function appendCommandLine(cmd: string): HTMLElement {
       const line = document.createElement("div");
       line.className = "terminal-line terminal-line--cmd";
       line.innerHTML = `<span class="text-green">visitor@hxn.sh:~$</span> ${escapeHtml(cmd)}`;
       output.appendChild(line);
+      return line;
     }
 
     function appendOutput(html: string) {
@@ -292,14 +293,10 @@ const commands = [
       output.appendChild(wrapper);
     }
 
-    function scrollToBottom() {
-      body.scrollTop = body.scrollHeight;
-      // Scroll the page so the suggestion buttons are visible
-      const suggestions = document.querySelector(".terminal-suggestions") as HTMLElement;
-      if (suggestions) {
-        suggestions.scrollIntoView({ behavior: "smooth", block: "end" });
-      } else {
-        inputLine.scrollIntoView({ behavior: "smooth", block: "end" });
+    function scrollToNewContent(commandLineEl: HTMLElement | null) {
+      // Scroll to the command that was just typed so user sees the output from the top
+      if (commandLineEl) {
+        commandLineEl.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     }
 
@@ -311,7 +308,7 @@ const commands = [
       const trimmed = rawInput.trim();
       if (!trimmed) return;
 
-      appendCommandLine(trimmed);
+      const cmdLineEl = appendCommandLine(trimmed);
 
       const result = processCommand(trimmed);
 
@@ -320,14 +317,16 @@ const commands = [
       switch (result.type) {
         case "navigation": {
           if (result.command!.name === "showall") {
-            // Render all sections
             Object.values(templateMap).forEach((tplId) => renderTemplate(tplId));
+            history.replaceState(null, "", "#showall");
           } else {
             const tplId = templateMap[result.command!.name];
             if (tplId) {
               renderTemplate(tplId);
+              history.replaceState(null, "", `#${result.command!.name}`);
             } else if (result.command!.name === "about") {
               appendText(`${document.querySelector(".terminal-about")?.textContent || ""}`);
+              history.replaceState(null, "", "#about");
             }
           }
           break;
@@ -337,13 +336,14 @@ const commands = [
           break;
         case "clear":
           output.innerHTML = "";
+          history.replaceState(null, "", window.location.pathname);
           break;
         case "error":
           appendText(result.message);
           break;
       }
 
-      scrollToBottom();
+      scrollToNewContent(cmdLineEl);
     }
 
     // Handle Enter key
@@ -382,6 +382,12 @@ const commands = [
     // Initial cursor position and focus
     updateCursor();
     input.focus();
+
+    // Deep linking: auto-execute command from URL hash
+    const hash = window.location.hash.replace("#", "").trim();
+    if (hash) {
+      executeCommand(hash);
+    }
   }
 
   document.addEventListener("DOMContentLoaded", initTerminalSite);
