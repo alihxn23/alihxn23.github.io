@@ -95,16 +95,7 @@
         { "name": "Cloud+" },
         { "name": "Security+" },
         { "name": "Network+" },
-        { "name": "A+" },
-        { "name": "CSIE", "code": "Stackable" },
-        { "name": "CSAE", "code": "Stackable" },
-        { "name": "CSAP", "code": "Stackable" },
-        { "name": "CNSP", "code": "Stackable" },
-        { "name": "CCAP", "code": "Stackable" },
-        { "name": "CSCP", "code": "Stackable" },
-        { "name": "CSIS", "code": "Stackable" },
-        { "name": "CIOS", "code": "Stackable" },
-        { "name": "CNVP", "code": "Stackable" }
+        { "name": "A+" }
       ]
     },
     {
