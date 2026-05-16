@@ -507,9 +507,12 @@ const commands = [
       }
     });
 
-    // Initial cursor position and focus
+    // Initial cursor position and focus (desktop only — avoid keyboard popup on mobile)
     updateCursor();
-    input.focus();
+    const isDesktop = window.matchMedia("(min-width: 768px)").matches;
+    if (isDesktop) {
+      input.focus();
+    }
 
     // Deep linking: auto-execute command from URL hash
     const hash = window.location.hash.replace("#", "").trim();
