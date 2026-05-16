@@ -93,11 +93,12 @@ const commands = [
             id="terminal-input"
             class="terminal-input__field"
             type="text"
-            placeholder="type a command..."
             aria-label="Terminal command input. Type help for available commands."
             autocomplete="off"
             spellcheck="false"
           />
+          <span id="terminal-hint" class="terminal-input__hint" aria-hidden="true"></span>
+          <span id="terminal-autocomplete" class="terminal-input__autocomplete" aria-hidden="true"></span>
           <span class="terminal-input__cursor" aria-hidden="true"></span>
         </div>
       </div>
@@ -106,7 +107,7 @@ const commands = [
       <div class="terminal-suggestions" aria-label="Available commands">
         {commands.map((cmd) => (
           <button
-            class="terminal-suggestions__btn"
+            class={`terminal-suggestions__btn${["showall", "help", "clear"].includes(cmd.label) ? " terminal-suggestions__btn--secondary" : ""}`}
             data-command={cmd.label}
             type="button"
             aria-label={`Run command: ${cmd.label}`}
@@ -242,6 +243,133 @@ const commands = [
     input.addEventListener("click", updateCursor);
     input.addEventListener("focus", updateCursor);
 
+    // --- Rotating placeholder hints ---
+    const hintEl = document.getElementById("terminal-hint") as HTMLElement;
+    const autocompleteEl = document.getElementById("terminal-autocomplete") as HTMLElement;
+    const hintCommands = ["experience", "skills", "certs", "education", "contact", "showall", "help"];
+    let hintIndex = 0;
+    let hintInterval: ReturnType<typeof setInterval> | null = null;
+
+    function showHint() {
+      if (!hintEl) return;
+      if (input.value.length > 0) {
+        hintEl.textContent = "";
+        hintEl.className = "terminal-input__hint";
+        return;
+      }
+      // Slide current hint up and out
+      hintEl.classList.add("terminal-input__hint--exit-up");
+
+      setTimeout(() => {
+        // Position new hint below, invisible
+        hintEl.classList.remove("terminal-input__hint--exit-up");
+        hintEl.classList.add("terminal-input__hint--enter-below");
+        hintEl.textContent = hintCommands[hintIndex];
+        hintIndex = (hintIndex + 1) % hintCommands.length;
+
+        // Force reflow then animate up into place
+        void hintEl.offsetHeight;
+        hintEl.classList.remove("terminal-input__hint--enter-below");
+      }, 350);
+    }
+
+    function startHintRotation() {
+      showHint();
+      hintInterval = setInterval(showHint, 3000);
+    }
+
+    function stopHintRotation() {
+      if (hintInterval) {
+        clearInterval(hintInterval);
+        hintInterval = null;
+      }
+      if (hintEl) {
+        hintEl.textContent = "";
+        hintEl.className = "terminal-input__hint";
+      }
+    }
+
+    // --- Tab autocomplete (bash-style) ---
+    let lastTabTime = 0;
+    const tabDoubleClickThreshold = 500; // ms
+
+    function getMatchingCommands(prefix: string): string[] {
+      if (!prefix) return [];
+      const lower = prefix.toLowerCase();
+      const matches: string[] = [];
+      for (const cmd of COMMANDS) {
+        if (cmd.name.startsWith(lower) && !matches.includes(cmd.name)) {
+          matches.push(cmd.name);
+        }
+      }
+      return matches;
+    }
+
+    function updateAutocomplete() {
+      if (!autocompleteEl) return;
+      const val = input.value;
+      if (!val) {
+        autocompleteEl.textContent = "";
+        return;
+      }
+      const matches = getMatchingCommands(val);
+      if (matches.length === 1 && matches[0] !== val.toLowerCase()) {
+        // Show the remaining part as faded suffix, positioned after typed text
+        autocompleteEl.textContent = matches[0].substring(val.length);
+        measure.style.font = getComputedStyle(input).font;
+        measure.textContent = val;
+        autocompleteEl.style.left = `${measure.offsetWidth}px`;
+      } else {
+        autocompleteEl.textContent = "";
+      }
+    }
+
+    function handleTab(e: KeyboardEvent) {
+      if (e.key !== "Tab") return;
+      e.preventDefault(); // Prevent focus change
+
+      const val = input.value.trim();
+      if (!val) return;
+
+      const matches = getMatchingCommands(val);
+      const now = performance.now();
+
+      if (matches.length === 1) {
+        // Single match: complete it
+        input.value = matches[0];
+        updateCursor();
+        updateAutocomplete();
+      } else if (matches.length > 1) {
+        // Multiple matches: double-tab shows all options
+        if (now - lastTabTime < tabDoubleClickThreshold) {
+          // Double tab — show matching commands in output
+          const line = document.createElement("div");
+          line.className = "terminal-line terminal-line--output";
+          const pre = document.createElement("pre");
+          pre.className = "terminal-pre";
+          pre.textContent = matches.join("  ");
+          line.appendChild(pre);
+          output.appendChild(line);
+        }
+        lastTabTime = now;
+      }
+    }
+
+    // Wire up hint and autocomplete
+    input.addEventListener("input", () => {
+      if (input.value.length > 0) {
+        stopHintRotation();
+      } else {
+        startHintRotation();
+      }
+      updateAutocomplete();
+    });
+
+    input.addEventListener("keydown", handleTab);
+
+    // Start hint rotation on load
+    startHintRotation();
+
     // Template map for commands -> section content
     const templateMap: Record<string, string> = {
       experience: "tpl-experience",
@@ -350,6 +478,8 @@ const commands = [
         const val = input.value;
         input.value = "";
         updateCursor();
+        updateAutocomplete();
+        startHintRotation();
         executeCommand(val);
       }
     });
@@ -485,6 +615,7 @@ const commands = [
     flex: 1;
     display: flex;
     align-items: center;
+    overflow: hidden;
   }
 
   .terminal-input__field {
@@ -508,6 +639,55 @@ const commands = [
     background: var(--terminal-green);
     animation: cursor-blink 1s step-end infinite;
     pointer-events: none;
+  }
+
+  .terminal-input__hint {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-style: italic;
+    color: var(--text-muted);
+    pointer-events: none;
+    white-space: nowrap;
+    transform: translateY(-50%);
+    opacity: 1;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+  }
+
+  .terminal-input__hint--exit-up {
+    transform: translateY(-150%);
+    opacity: 0;
+  }
+
+  .terminal-input__hint--enter-below {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  .terminal-input__hint--exit-up {
+    transform: translateY(-150%);
+    opacity: 0;
+  }
+
+  .terminal-input__hint--enter-below {
+    transform: translateY(100%);
+    opacity: 0;
+    transition: none;
+  }
+
+  .terminal-input__autocomplete {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-style: italic;
+    color: var(--text-muted);
+    opacity: 0.5;
+    pointer-events: none;
+    white-space: nowrap;
   }
 
   @keyframes cursor-blink {
@@ -551,6 +731,26 @@ const commands = [
 
   .terminal-suggestions__btn:active {
     background: rgba(0, 255, 255, 0.1);
+  }
+
+  .terminal-suggestions__btn--secondary {
+    border-style: dashed;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    min-height: 30px;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .terminal-suggestions__btn--secondary:hover,
+  .terminal-suggestions__btn--secondary:focus-visible {
+    border-color: var(--terminal-amber);
+    color: var(--terminal-amber);
+    text-shadow: var(--glow-amber);
+    background: rgba(255, 176, 0, 0.05);
+  }
+
+  .terminal-suggestions__btn--secondary .terminal-suggestions__prefix {
+    color: var(--text-muted);
   }
 
   .terminal-suggestions__prefix {
