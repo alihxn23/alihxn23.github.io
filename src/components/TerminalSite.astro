@@ -22,8 +22,6 @@ function formatDate(dateStr: string | null): string {
   return `${MONTH_NAMES[parseInt(month, 10) - 1]} ${year}`;
 }
 
-const heroSocial = social.filter((s) => s.platform !== "Discord");
-
 const commands = [
   { label: "experience", aliases: "exp, work" },
   { label: "skills", aliases: "tech, stack" },
