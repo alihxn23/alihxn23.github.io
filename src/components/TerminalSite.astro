@@ -219,6 +219,8 @@ const commands = [
 
     if (!input || !output || !inputLine) return;
 
+    const isDesktop = window.matchMedia("(min-width: 768px)").matches;
+
     // Cursor tracking
     const measure = document.createElement("span");
     measure.setAttribute("aria-hidden", "true");
@@ -495,12 +497,13 @@ const commands = [
         input.value = "";
         updateCursor();
         executeCommand(cmd);
-        input.focus();
+        if (isDesktop) input.focus();
       });
     });
 
-    // Focus input when clicking anywhere in the terminal body
+    // Focus input when clicking anywhere in the terminal body (desktop only)
     body.addEventListener("click", (e) => {
+      if (!isDesktop) return;
       const target = e.target as HTMLElement;
       if (!target.closest("a") && !target.closest("button") && !target.closest("input")) {
         input.focus();
@@ -509,7 +512,6 @@ const commands = [
 
     // Initial cursor position and focus (desktop only — avoid keyboard popup on mobile)
     updateCursor();
-    const isDesktop = window.matchMedia("(min-width: 768px)").matches;
     if (isDesktop) {
       input.focus();
     }
