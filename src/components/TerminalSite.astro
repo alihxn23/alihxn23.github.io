@@ -542,6 +542,10 @@ const commands = [
     display: flex;
     flex-direction: column;
     min-height: calc(100vh - 2rem);
+    /* Semi-transparent so the lightning grid shows through. */
+    background-color: rgba(18, 18, 26, 0.62);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
   }
 
   .site-terminal__body {

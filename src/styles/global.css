@@ -183,6 +183,19 @@ body {
   border-width: 0;
 }
 
+/* Keep main content above the fixed grid-background canvas (z-index: 0) */
+main {
+  position: relative;
+  z-index: 1;
+}
+
+/* Orb replaces the native cursor — class added by the grid script only when
+   the orb layer is active and a fine pointer is present. */
+.orb-cursor,
+.orb-cursor * {
+  cursor: none !important;
+}
+
 /* Remove focus outline on main when targeted via skip link */
 main:focus {
   outline: none;
