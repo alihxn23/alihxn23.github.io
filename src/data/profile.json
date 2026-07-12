@@ -80,6 +80,7 @@
     {
       "provider": "AWS",
       "certifications": [
+        { "name": "Solutions Architect Professional", "code": "SAP" },
         { "name": "Solutions Architect Associate", "code": "SAA" },
         { "name": "Developer Associate", "code": "DVA" },
         { "name": "SysOps Admin Associate", "code": "SOA" },
