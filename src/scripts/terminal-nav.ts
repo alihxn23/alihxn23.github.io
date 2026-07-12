@@ -12,7 +12,6 @@ export interface CommandDefinition {
   name: string;
   aliases: string[];
   description: string;
-  targetSection: string;
 }
 
 export interface CommandResult {
@@ -22,15 +21,15 @@ export interface CommandResult {
 }
 
 export const COMMANDS: CommandDefinition[] = [
-  { name: "about", aliases: ["whoami", "hero"], description: "Who is Muhammad Ali Hasan", targetSection: "#hero" },
-  { name: "experience", aliases: ["exp", "work"], description: "Professional experience", targetSection: "#experience" },
-  { name: "skills", aliases: ["tech", "stack"], description: "Technical skills", targetSection: "#skills" },
-  { name: "certs", aliases: ["certifications", "cert"], description: "Professional certifications", targetSection: "#certifications" },
-  { name: "education", aliases: ["edu", "school"], description: "Education background", targetSection: "#education" },
-  { name: "contact", aliases: ["social", "links"], description: "Contact and social links", targetSection: "#contact" },
-  { name: "showall", aliases: ["cat *", "ls -a", "all"], description: "Reveal all sections", targetSection: "" },
-  { name: "help", aliases: ["?", "commands"], description: "List available commands", targetSection: "" },
-  { name: "clear", aliases: ["cls"], description: "Clear terminal history", targetSection: "" },
+  { name: "about", aliases: ["whoami", "hero"], description: "Who is Muhammad Ali Hasan" },
+  { name: "experience", aliases: ["exp", "work"], description: "Professional experience" },
+  { name: "skills", aliases: ["tech", "stack"], description: "Technical skills" },
+  { name: "certs", aliases: ["certifications", "cert"], description: "Professional certifications" },
+  { name: "education", aliases: ["edu", "school"], description: "Education background" },
+  { name: "contact", aliases: ["social", "links"], description: "Contact and social links" },
+  { name: "showall", aliases: ["cat *", "ls -a", "all"], description: "Reveal all sections" },
+  { name: "help", aliases: ["?", "commands"], description: "List available commands" },
+  { name: "clear", aliases: ["cls"], description: "Clear terminal history" },
 ];
 
 /**
@@ -115,147 +114,6 @@ export function processCommand(input: string): CommandResult | null {
     command: matched,
     message: `Navigating to ${matched.name}...`,
   };
-}
-
-/**
- * TerminalNav class manages terminal state and DOM interactions.
- * Handles command history, input processing, and smooth scrolling.
- */
-export class TerminalNav {
-  private history: string[] = [];
-  private inputEl: HTMLInputElement | null = null;
-  private outputEl: HTMLElement | null = null;
-
-  constructor(inputSelector: string, outputSelector: string) {
-    if (typeof document === "undefined") return;
-
-    this.inputEl = document.querySelector<HTMLInputElement>(inputSelector);
-    this.outputEl = document.querySelector<HTMLElement>(outputSelector);
-
-    if (this.inputEl) {
-      this.inputEl.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-          this.handleInput();
-        }
-      });
-    }
-  }
-
-  /** Returns a copy of the command history */
-  getHistory(): string[] {
-    return [...this.history];
-  }
-
-  /** Processes the current input value */
-  handleInput(): void {
-    if (!this.inputEl) return;
-
-    const input = this.inputEl.value;
-    this.inputEl.value = "";
-
-    const result = processCommand(input);
-
-    // Empty input is a no-op — don't add to history
-    if (result === null) return;
-
-    // Add to history
-    this.history.push(input.trim());
-
-    switch (result.type) {
-      case "navigation":
-        this.appendOutput(`$ ${input.trim()}`, result.message);
-        if (result.command!.name === "showall") {
-          this.revealAllSections();
-        } else {
-          this.hideAllSections();
-          this.revealSection(result.command!.targetSection);
-          this.scrollToSection(result.command!.targetSection);
-        }
-        break;
-      case "help":
-        this.appendOutput(`$ ${input.trim()}`, result.message);
-        break;
-      case "clear":
-        this.clearOutput();
-        break;
-      case "error":
-        this.appendOutput(`$ ${input.trim()}`, result.message);
-        break;
-    }
-  }
-
-  /** Hides all gated sections */
-  private hideAllSections(): void {
-    if (typeof document === "undefined") return;
-    const allGated = document.querySelectorAll<HTMLElement>(".terminal-gated");
-    allGated.forEach((el) => {
-      el.classList.remove("section--revealed");
-    });
-  }
-
-  /** Reveals a gated section by removing the hidden state */
-  private revealSection(selector: string): void {
-    if (typeof document === "undefined") return;
-    const sectionName = selector.replace("#", "");
-    const gatedEl = document.querySelector<HTMLElement>(`.terminal-gated[data-section="${sectionName}"]`);
-    if (gatedEl) {
-      gatedEl.classList.add("section--revealed");
-    }
-  }
-
-  /** Reveals all gated sections at once */
-  private revealAllSections(): void {
-    if (typeof document === "undefined") return;
-    const allGated = document.querySelectorAll<HTMLElement>(".terminal-gated");
-    allGated.forEach((el) => {
-      el.classList.add("section--revealed");
-    });
-  }
-
-  /** Smooth scrolls to the target section */
-  private scrollToSection(selector: string): void {
-    const target = document.querySelector(selector);
-    if (target) {
-      if (typeof target.scrollIntoView === "function") {
-        target.scrollIntoView({ behavior: "smooth" });
-      }
-    } else {
-      this.appendOutput("", "Section not found");
-    }
-  }
-
-  /** Appends command and output text to the terminal output area */
-  private appendOutput(command: string, output: string): void {
-    if (!this.outputEl) return;
-
-    const entry = document.createElement("div");
-    entry.classList.add("terminal-history-entry");
-
-    if (command) {
-      const cmdLine = document.createElement("div");
-      cmdLine.classList.add("terminal-history-cmd");
-      cmdLine.textContent = command;
-      entry.appendChild(cmdLine);
-    }
-
-    if (output) {
-      const outputLine = document.createElement("pre");
-      outputLine.classList.add("terminal-history-output");
-      outputLine.textContent = output;
-      entry.appendChild(outputLine);
-    }
-
-    this.outputEl.appendChild(entry);
-    this.outputEl.scrollTop = this.outputEl.scrollHeight;
-  }
-
-  /** Clears the terminal output area and history */
-  private clearOutput(): void {
-    if (this.outputEl) {
-      this.outputEl.innerHTML = "";
-    }
-    this.history = [];
-  }
 }
 
 // Note: Initialization is handled by TerminalSite.astro's script.

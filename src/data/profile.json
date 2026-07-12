@@ -18,6 +18,11 @@
       "platform": "Discord",
       "url": "https://discordapp.com/users/887374732264095834",
       "label": "Discord Profile"
+    },
+    {
+      "platform": "Email",
+      "url": "mailto:alihxn23@gmail.com",
+      "label": "Email"
     }
   ],
   "experience": [
@@ -36,18 +41,18 @@
       "description": "Developed full-stack applications using modern web technologies, built RESTful APIs, and implemented cloud-native solutions on AWS infrastructure."
     },
     {
-      "title": "Intern",
-      "company": "Hunt Energy Network",
-      "startDate": "2021-06",
-      "endDate": "2021-08",
-      "description": "Contributed to software development projects, gained hands-on experience with enterprise development workflows and cloud technologies."
-    },
-    {
       "title": "Tech Summer Engagement Program",
       "company": "Paycom",
       "startDate": "2022-07",
       "endDate": "2022-07",
       "description": "Participated in an intensive technology engagement program focused on software engineering practices and professional development."
+    },
+    {
+      "title": "Intern",
+      "company": "Hunt Energy Network",
+      "startDate": "2021-06",
+      "endDate": "2021-08",
+      "description": "Contributed to software development projects, gained hands-on experience with enterprise development workflows and cloud technologies."
     }
   ],
   "skills": [
