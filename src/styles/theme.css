@@ -22,6 +22,13 @@
   --terminal-prompt: #00ff41;
   --terminal-cursor: #00ff41;
 
+  /* Z-index scale */
+  --z-grid: 0;
+  --z-content: 1;
+  --z-orb: 9998;
+  --z-crt: 9999;
+  --z-skip-link: 10000;
+
   /* Glow effects */
   --glow-green: 0 0 8px rgba(0, 255, 65, 0.4);
   --glow-amber: 0 0 8px rgba(255, 176, 0, 0.4);

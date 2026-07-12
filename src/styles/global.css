@@ -150,7 +150,7 @@ body {
   top: -100%;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 10000;
+  z-index: var(--z-skip-link);
   padding: 0.75rem 1.5rem;
   background-color: var(--bg-surface);
   color: var(--terminal-green);
@@ -186,7 +186,7 @@ body {
 /* Keep main content above the fixed grid-background canvas (z-index: 0) */
 main {
   position: relative;
-  z-index: 1;
+  z-index: var(--z-content);
 }
 
 /* Orb replaces the native cursor — class added by the grid script only when

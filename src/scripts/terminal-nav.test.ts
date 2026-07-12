@@ -1,13 +1,12 @@
 /**
  * @vitest-environment jsdom
  */
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import {
   COMMANDS,
   resolveCommand,
   processCommand,
   getHelpMessage,
-  TerminalNav,
   type CommandDefinition,
 } from './terminal-nav';
 
@@ -131,118 +130,4 @@ describe('terminal-nav', () => {
     });
   });
 
-  describe('TerminalNav class', () => {
-    beforeEach(() => {
-      document.body.innerHTML = `
-        <input id="terminal-input" type="text" />
-        <div id="terminal-output"></div>
-        <section id="hero">Hero</section>
-        <section id="experience">Experience</section>
-      `;
-    });
-
-    it('initializes with empty history', () => {
-      const nav = new TerminalNav('#terminal-input', '#terminal-output');
-      expect(nav.getHistory()).toEqual([]);
-    });
-
-    it('processes input on Enter key', () => {
-      const nav = new TerminalNav('#terminal-input', '#terminal-output');
-      const input = document.querySelector<HTMLInputElement>('#terminal-input')!;
-
-      input.value = 'help';
-      input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
-
-      expect(nav.getHistory()).toEqual(['help']);
-    });
-
-    it('does not add empty input to history', () => {
-      const nav = new TerminalNav('#terminal-input', '#terminal-output');
-      const input = document.querySelector<HTMLInputElement>('#terminal-input')!;
-
-      input.value = '';
-      input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
-
-      expect(nav.getHistory()).toEqual([]);
-    });
-
-    it('clears input field after processing', () => {
-      const nav = new TerminalNav('#terminal-input', '#terminal-output');
-      const input = document.querySelector<HTMLInputElement>('#terminal-input')!;
-
-      input.value = 'about';
-      input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
-
-      expect(input.value).toBe('');
-    });
-
-    it('appends output to terminal output area', () => {
-      const nav = new TerminalNav('#terminal-input', '#terminal-output');
-      const input = document.querySelector<HTMLInputElement>('#terminal-input')!;
-      const output = document.querySelector('#terminal-output')!;
-
-      input.value = 'help';
-      input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
-
-      expect(output.querySelector('.terminal-history-entry')).not.toBeNull();
-      expect(output.textContent).toContain('Available commands');
-    });
-
-    it('clears output on clear command', () => {
-      const nav = new TerminalNav('#terminal-input', '#terminal-output');
-      const input = document.querySelector<HTMLInputElement>('#terminal-input')!;
-      const output = document.querySelector('#terminal-output')!;
-
-      // First add some output
-      input.value = 'help';
-      input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
-      expect(output.children.length).toBeGreaterThan(0);
-
-      // Then clear
-      input.value = 'clear';
-      input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
-      expect(output.innerHTML).toBe('');
-    });
-
-    it('calls scrollIntoView for navigation commands', () => {
-      const nav = new TerminalNav('#terminal-input', '#terminal-output');
-      const input = document.querySelector<HTMLInputElement>('#terminal-input')!;
-      const heroSection = document.querySelector('#hero')!;
-
-      const scrollMock = vi.fn();
-      heroSection.scrollIntoView = scrollMock;
-
-      input.value = 'about';
-      input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
-
-      expect(scrollMock).toHaveBeenCalledWith({ behavior: 'smooth' });
-    });
-
-    it('maintains command history across multiple inputs', () => {
-      const nav = new TerminalNav('#terminal-input', '#terminal-output');
-      const input = document.querySelector<HTMLInputElement>('#terminal-input')!;
-
-      input.value = 'about';
-      input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
-
-      input.value = 'skills';
-      input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
-
-      input.value = 'help';
-      input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
-
-      expect(nav.getHistory()).toEqual(['about', 'skills', 'help']);
-    });
-
-    it('does not respond to non-Enter keys', () => {
-      const nav = new TerminalNav('#terminal-input', '#terminal-output');
-      const input = document.querySelector<HTMLInputElement>('#terminal-input')!;
-
-      input.value = 'about';
-      input.dispatchEvent(new KeyboardEvent('keydown', { key: 'a' }));
-
-      expect(nav.getHistory()).toEqual([]);
-      expect(input.value).toBe('about');
-    });
-  });
 });

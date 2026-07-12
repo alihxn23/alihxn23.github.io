@@ -18,6 +18,11 @@
       "platform": "Discord",
       "url": "https://discordapp.com/users/887374732264095834",
       "label": "Discord Profile"
+    },
+    {
+      "platform": "Email",
+      "url": "mailto:alihxn23@gmail.com",
+      "label": "Email"
     }
   ],
   "experience": [
