@@ -10,6 +10,7 @@
  * into the terminal output when the corresponding command is executed.
  */
 import profile from '../data/profile.json';
+import { COMMANDS } from '../scripts/terminal-nav.ts';
 
 const { name, role, company, tagline, social } = profile;
 const experiences = profile.experience;
@@ -22,16 +23,8 @@ function formatDate(dateStr: string | null): string {
   return `${MONTH_NAMES[parseInt(month, 10) - 1]} ${year}`;
 }
 
-const commands = [
-  { label: "experience", aliases: "exp, work" },
-  { label: "skills", aliases: "tech, stack" },
-  { label: "certs", aliases: "cert" },
-  { label: "education", aliases: "edu" },
-  { label: "contact", aliases: "social" },
-  { label: "showall", aliases: "cat *, all" },
-  { label: "clear", aliases: "cls" },
-  { label: "help", aliases: "?" },
-];
+// Commands to show as suggestion buttons (exclude "about" since it's pre-rendered)
+const suggestionCommands = COMMANDS.filter(cmd => cmd.name !== "about");
 ---
 
 <div class="site-terminal">
@@ -101,15 +94,15 @@ const commands = [
 
       <!-- Suggestion buttons -->
       <div class="terminal-suggestions" aria-label="Available commands">
-        {commands.map((cmd) => (
+        {suggestionCommands.map((cmd) => (
           <button
-            class={`terminal-suggestions__btn${["showall", "help", "clear"].includes(cmd.label) ? " terminal-suggestions__btn--secondary" : ""}`}
-            data-command={cmd.label}
+            class={`terminal-suggestions__btn${["showall", "help", "clear"].includes(cmd.name) ? " terminal-suggestions__btn--secondary" : ""}`}
+            data-command={cmd.name}
             type="button"
-            aria-label={`Run command: ${cmd.label}`}
+            aria-label={`Run command: ${cmd.name}`}
           >
             <span class="terminal-suggestions__prefix" aria-hidden="true">&gt;</span>
-            {cmd.label}
+            {cmd.name}
           </button>
         ))}
       </div>
@@ -354,16 +347,6 @@ const commands = [
     transform: translateY(-50%);
     opacity: 1;
     transition: transform 0.4s ease, opacity 0.4s ease;
-  }
-
-  .terminal-input__hint--exit-up {
-    transform: translateY(-150%);
-    opacity: 0;
-  }
-
-  .terminal-input__hint--enter-below {
-    transform: translateY(100%);
-    opacity: 0;
   }
 
   .terminal-input__hint--exit-up {

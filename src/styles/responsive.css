@@ -11,10 +11,6 @@ html {
   font-size: 14px;
 }
 
-.section-header__title {
-  font-size: 1.25rem;
-}
-
 .terminal-window__body {
   padding: 0.75rem;
 }
@@ -37,10 +33,6 @@ html {
 @media (min-width: 768px) {
   html {
     font-size: 15px;
-  }
-
-  .section-header__title {
-    font-size: 1.375rem;
   }
 
   .terminal-window__body {
@@ -66,10 +58,6 @@ html {
 @media (min-width: 1024px) {
   html {
     font-size: 16px;
-  }
-
-  .section-header__title {
-    font-size: 1.5rem;
   }
 
   .terminal-window__body {

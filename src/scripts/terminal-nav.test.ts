@@ -83,7 +83,6 @@ describe('terminal-nav', () => {
       expect(result).not.toBeNull();
       expect(result!.type).toBe('navigation');
       expect(result!.command?.name).toBe('experience');
-      expect(result!.command?.targetSection).toBe('#experience');
     });
 
     it('returns help result for help command', () => {

@@ -178,7 +178,11 @@ export function initTerminalSite() {
   function appendCommandLine(cmd: string): HTMLElement {
     const line = document.createElement("div");
     line.className = "terminal-line terminal-line--cmd";
-    line.innerHTML = `<span class="text-green">visitor@hxn.sh:~$</span> ${escapeHtml(cmd)}`;
+    const prompt = document.createElement("span");
+    prompt.className = "text-green";
+    prompt.textContent = "visitor@hxn.sh:~$";
+    line.appendChild(prompt);
+    line.appendChild(document.createTextNode(" " + cmd));
     output.appendChild(line);
     return line;
   }
@@ -220,10 +224,6 @@ export function initTerminalSite() {
     if (commandLineEl) {
       commandLineEl.scrollIntoView({ behavior: "smooth", block: "start" });
     }
-  }
-
-  function escapeHtml(str: string): string {
-    return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 
   function executeCommand(rawInput: string) {

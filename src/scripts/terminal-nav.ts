@@ -12,7 +12,6 @@ export interface CommandDefinition {
   name: string;
   aliases: string[];
   description: string;
-  targetSection: string;
 }
 
 export interface CommandResult {
@@ -22,15 +21,15 @@ export interface CommandResult {
 }
 
 export const COMMANDS: CommandDefinition[] = [
-  { name: "about", aliases: ["whoami", "hero"], description: "Who is Muhammad Ali Hasan", targetSection: "#hero" },
-  { name: "experience", aliases: ["exp", "work"], description: "Professional experience", targetSection: "#experience" },
-  { name: "skills", aliases: ["tech", "stack"], description: "Technical skills", targetSection: "#skills" },
-  { name: "certs", aliases: ["certifications", "cert"], description: "Professional certifications", targetSection: "#certifications" },
-  { name: "education", aliases: ["edu", "school"], description: "Education background", targetSection: "#education" },
-  { name: "contact", aliases: ["social", "links"], description: "Contact and social links", targetSection: "#contact" },
-  { name: "showall", aliases: ["cat *", "ls -a", "all"], description: "Reveal all sections", targetSection: "" },
-  { name: "help", aliases: ["?", "commands"], description: "List available commands", targetSection: "" },
-  { name: "clear", aliases: ["cls"], description: "Clear terminal history", targetSection: "" },
+  { name: "about", aliases: ["whoami", "hero"], description: "Who is Muhammad Ali Hasan" },
+  { name: "experience", aliases: ["exp", "work"], description: "Professional experience" },
+  { name: "skills", aliases: ["tech", "stack"], description: "Technical skills" },
+  { name: "certs", aliases: ["certifications", "cert"], description: "Professional certifications" },
+  { name: "education", aliases: ["edu", "school"], description: "Education background" },
+  { name: "contact", aliases: ["social", "links"], description: "Contact and social links" },
+  { name: "showall", aliases: ["cat *", "ls -a", "all"], description: "Reveal all sections" },
+  { name: "help", aliases: ["?", "commands"], description: "List available commands" },
+  { name: "clear", aliases: ["cls"], description: "Clear terminal history" },
 ];
 
 /**
