@@ -11,6 +11,7 @@
  */
 import profile from '../data/profile.json';
 import { COMMANDS } from '../scripts/terminal-nav.ts';
+import MobileOrb from './MobileOrb.astro';
 
 const { name, role, company, tagline, social } = profile;
 const experiences = profile.experience;
@@ -109,6 +110,9 @@ const suggestionCommands = COMMANDS.filter(cmd => cmd.name !== "about");
     </div>
   </div>
 </div>
+
+<!-- Mobile navigation orb (visible only on mobile) -->
+<MobileOrb />
 
 <!-- Hidden section content for SEO + cloning into terminal output -->
 <div id="section-data" style="display:none;">
@@ -519,10 +523,8 @@ const suggestionCommands = COMMANDS.filter(cmd => cmd.name !== "about");
       font-size: 0.4rem;
     }
 
-    .terminal-suggestions__btn {
-      min-height: 44px;
-      padding: 0.5rem 0.875rem;
-      font-size: 0.875rem;
+    .terminal-suggestions {
+      display: none;
     }
   }
 
